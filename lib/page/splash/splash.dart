@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:t4edu_source_source/global/app_path.dart';
+import 'package:t4edu_source_source/global/app_routes.dart';
 
 class SplashScreen extends StatefulWidget {
   SplashScreen({Key key}) : super(key: key);
@@ -11,6 +12,9 @@ class SplashScreen extends StatefulWidget {
 class _SplashScreenState extends State<SplashScreen> with TickerProviderStateMixin{
   @override
   void initState() {
+    new Future.delayed(const Duration(seconds: 2), () {
+      Navigator.pushNamed(context, AppRouter.mainPage);
+    });
     super.initState();
   }
 
