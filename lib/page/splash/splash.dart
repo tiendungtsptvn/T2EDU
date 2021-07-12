@@ -27,12 +27,12 @@ class _SplashScreenState extends State<SplashScreen> with TickerProviderStateMix
   Widget build(BuildContext context) {
     return Scaffold(
       body: Container(
-        height: double.infinity,
-        child: Center(
-          child: Image.asset(
-            AppPath.logo_login,
-          ),
-        ),
+        // height: double.infinity,
+        // child: Center(
+        //   child: Image.asset(
+        //     AppPath.logo_login,
+        //   ),
+        // ),
       ),
     );
   }
