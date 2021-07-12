@@ -1,0 +1,13 @@
+MULTI LANGUAGE BUBU APP DOCS
+
+*** Chạy 2 dòng lênh dưới để gen Language String ***
+flutter pub run easy_localization:generate -S "assets/translations" -O "lib/translations"
+flutter pub run easy_localization:generate -S "assets/translations" -O "lib/translations" -o "locale_keys.g.dart" -f keys
+
+
+*** gọi LocaleKeys.<key>.tr() trong text ***
+sẽ báo lỗi .tr() hãy import
+
+import 'package:easy_localization/easy_localization.dart';
+
+nó sẽ không tự động import thằng này vào đâu nên chủ động copy paste vào nhé ^^
