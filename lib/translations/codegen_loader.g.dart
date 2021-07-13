@@ -17,12 +17,28 @@ class CodegenLoader extends AssetLoader{
   static const Map<String,dynamic> en = {
   "error_message_default": "Có lỗi kết nối đến máy chủ. Quý khách vui lòng thử lại",
   "something_error": "Đã có lỗi xảy ra. Vui lòng thử lại",
-  "an_error_occurred": "Đã có lỗi xảy ra"
+  "an_error_occurred": "Đã có lỗi xảy ra",
+  "login": "Login",
+  "comment1": "LoginScreen-->",
+  "welcome": "Welcome to T4Edu!",
+  "hintUsername": "Email or phone-number",
+  "hintPassword": "Password",
+  "forgotPassword": "Forgot your password?",
+  "signup": "Sign up",
+  "orLoginWith": "or login with"
 };
 static const Map<String,dynamic> vi = {
   "error_message_default": "Có lỗi kết nối đến máy chủ. Quý khách vui lòng thử lại",
   "something_error": "Đã có lỗi xảy ra. Vui lòng thử lại",
-  "an_error_occurred": "Đã có lỗi xảy ra"
+  "an_error_occurred": "Đã có lỗi xảy ra",
+  "login": "Đăng Nhập",
+  "comment1": "LoginScreen-->",
+  "welcome": "Chào mừng bạn đến với T4Edu!",
+  "hintUsername": "Địa chỉ email hoặc số điện thoại",
+  "hintPassword": "Mật khẩu",
+  "forgotPassword": "Quên mật khẩu?",
+  "signup": "Đăng ký mới",
+  "orLoginWith": "hoặc đăng nhập với"
 };
 static const Map<String, Map<String,dynamic>> mapLocales = {"en": en, "vi": vi};
 }

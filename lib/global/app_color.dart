@@ -7,9 +7,9 @@ class AppColors{
 
   static const Color ColorApp = Color(0xFF91D7FF);
 
-  static const Color background = Color(0xffF6F6F6);
+  static const Color background = Color(0xFF072049);
 
-  static const Color itemBackground = Color(0xffE6E6E6);
+  static const Color itemBackground = Color(0xFFE9EDF5);
 
   static const Color blue = Color(0xFF246BFD);
 
@@ -47,5 +47,9 @@ class AppColors{
 
   static const Color backGroundFrey = Color(0xFFE5E5E5);
 
+  static const Color priColor = Color(0xFF072049);
 
+  static const Color secColor = Color(0xFF274C9B);
+
+  static const Color thiColor = Color(0xFF91A4CC);
 }
