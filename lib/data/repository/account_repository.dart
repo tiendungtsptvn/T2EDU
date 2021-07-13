@@ -1,6 +1,6 @@
 
 import 'package:get_it/get_it.dart';
-import 'package:t4edu_source_source/domain/repository/account_repository.dart';
+import 'package:t4edu_source_source/domain/repository/auth_repository.dart';
 import 'package:t4edu_source_source/source/api/client/rest/auth_client.dart';
 import 'package:t4edu_source_source/source/api/client/rest/rest_client.dart';
 
