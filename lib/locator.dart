@@ -38,7 +38,7 @@ void setupLocator(){
     ),
   );
 
-  GetIt.I.registerSingleton<AccountRepositoryIml>(
-    AccountRepositoryIml(GetIt.I<RestClient>()),
+  GetIt.I.registerSingleton<AuthRepositoryIml>(
+    AuthRepositoryIml(GetIt.I<ClientAuth>()),
   );
 }

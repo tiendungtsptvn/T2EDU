@@ -22,8 +22,8 @@ class AppRouter {
     switch (routeName) {
       case splash:
         return SplashScreen();
-      // case mainPage:
-      //   return MainPage();
+      case mainPage:
+        return MainPage();
       default:
         throw 'Route $routeName is not defined';
     }
