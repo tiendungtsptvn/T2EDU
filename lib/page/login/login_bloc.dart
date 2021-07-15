@@ -2,6 +2,8 @@ import 'package:get_it/get_it.dart';
 import 'package:rxdart/rxdart.dart';
 import 'package:t4edu_source_source/base/bloc_base.dart';
 import 'package:t4edu_source_source/data/repository/account_repository.dart';
+import 'package:t4edu_source_source/global/app_toast.dart';
+import 'package:t4edu_source_source/helpers/Utils.dart';
 
 class LoginBloc extends BlocBase{
   final AccountRepositoryIml _apiAccount = GetIt.I<AccountRepositoryIml>();
@@ -36,8 +38,9 @@ class LoginBloc extends BlocBase{
   Stream<bool> get obscureTextValueStream => _obscureTextValue.stream;
 
   void updateStateButton() {
-    if (_usernameValue.valueWrapper.value != "" &&
-        _passwordValue.valueWrapper.value != "") {
+    if (_usernameValue.valueWrapper.toString() != "" &&
+        _passwordValue.valueWrapper.toString() != "" &&
+        _passwordValue.valueWrapper.toString().length > 4) {
       enableButtonLoginSink.add(true);
     } else
       enableButtonLoginSink.add(false);
@@ -45,6 +48,17 @@ class LoginBloc extends BlocBase{
 
   void updateStatePassword(bool current){
     obscureTextValueSink.add(!current);
+  }
+
+  Future<void> userLogin() async {
+    try{
+      await _apiAccount.userLogin(_usernameValue.valueWrapper.value,
+          _passwordValue.valueWrapper.value);
+
+      AppToast.showSuccess('Welcome to T4Edu');
+    }catch(e){
+      AppToast.showError(Utils.getMessageError(e));
+    }
   }
 
   @override

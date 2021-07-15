@@ -12,5 +12,7 @@ abstract class  LocaleKeys {
   static const forgotPassword = 'forgotPassword';
   static const signup = 'signup';
   static const orLoginWith = 'orLoginWith';
+  static const canNotBeEmpty = 'canNotBeEmpty';
+  static const passwordAtLeast = 'passwordAtLeast';
 
 }

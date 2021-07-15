@@ -25,7 +25,9 @@ class CodegenLoader extends AssetLoader{
   "hintPassword": "Password",
   "forgotPassword": "Forgot your password?",
   "signup": "Sign up",
-  "orLoginWith": "or login with"
+  "orLoginWith": "Or login with",
+  "canNotBeEmpty": "This field can't be empty",
+  "passwordAtLeast": "Password contains at least 5 characters"
 };
 static const Map<String,dynamic> vi = {
   "error_message_default": "Có lỗi kết nối đến máy chủ. Quý khách vui lòng thử lại",
@@ -38,7 +40,9 @@ static const Map<String,dynamic> vi = {
   "hintPassword": "Mật khẩu",
   "forgotPassword": "Quên mật khẩu?",
   "signup": "Đăng ký mới",
-  "orLoginWith": "hoặc đăng nhập với"
+  "orLoginWith": "Hoặc đăng nhập với",
+  "canNotBeEmpty": "Không được bỏ trống",
+  "passwordAtLeast": "Mật khẩu chứa ít nhất 5 ký tự"
 };
 static const Map<String, Map<String,dynamic>> mapLocales = {"en": en, "vi": vi};
 }

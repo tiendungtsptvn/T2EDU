@@ -10,5 +10,7 @@
   "hintPassword": "Mật khẩu",
   "forgotPassword": "Quên mật khẩu?",
   "signup": "Đăng ký mới",
-  "orLoginWith": "hoặc đăng nhập với"
+  "orLoginWith": "Hoặc đăng nhập với",
+  "canNotBeEmpty": "Không được bỏ trống",
+  "passwordAtLeast": "Mật khẩu chứa ít nhất 5 ký tự"
 }

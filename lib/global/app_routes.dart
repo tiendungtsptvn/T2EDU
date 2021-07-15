@@ -26,7 +26,7 @@ class AppRouter {
       case mainPage:
         return MainPage();
       case login:
-        return Login();
+        return LoginPage();
       default:
         throw 'Route $routeName is not defined';
     }

@@ -10,5 +10,7 @@
   "hintPassword": "Password",
   "forgotPassword": "Forgot your password?",
   "signup": "Sign up",
-  "orLoginWith": "or login with"
+  "orLoginWith": "Or login with",
+  "canNotBeEmpty": "This field can't be empty",
+  "passwordAtLeast": "Password contains at least 5 characters"
 }

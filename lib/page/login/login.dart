@@ -1,22 +1,20 @@
 
-
 import 'dart:io';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:t4edu_source_source/global/app_color.dart';
 import 'package:t4edu_source_source/page/login/login_bloc.dart';
 import 'package:t4edu_source_source/translations/locale_keys.g.dart';
 
-class Login extends StatefulWidget{
+class LoginPage extends StatefulWidget{
   @override
-  _LoginState createState() => _LoginState();
+  _LoginPageState createState() => _LoginPageState();
 }
-class _LoginState extends State<Login>{
+class _LoginPageState extends State<LoginPage>{
 
-  TextEditingController usernameController = TextEditingController();
-  TextEditingController passwordController = TextEditingController();
+  TextEditingController _usernameController = TextEditingController();
+  TextEditingController _passwordController = TextEditingController();
   GlobalKey<FormState> _key = GlobalKey();
   LoginBloc _loginBloc;
 
@@ -24,6 +22,11 @@ class _LoginState extends State<Login>{
   void initState() {
     super.initState();
     _loginBloc = LoginBloc();
+  }
+  @override
+  void dispose() {
+    super.dispose();
+    _loginBloc.dispose();
   }
 
   @override
@@ -41,6 +44,7 @@ class _LoginState extends State<Login>{
           leading: IconButton(
             icon: Icon(Icons.arrow_back_ios),
             onPressed: (){
+              /// Navigate to previous Screen
             },
           ),
           elevation: 0.0,
@@ -51,12 +55,12 @@ class _LoginState extends State<Login>{
           decoration: BoxDecoration(
             color: AppColors.white,
             borderRadius: BorderRadius.only(
-              topLeft: Radius.circular(15),
-              topRight: Radius.circular(15)
+              topLeft: Radius.circular(10),
+              topRight: Radius.circular(10)
             )
           ),
           child: Padding(
-            padding: EdgeInsets.all(24),
+            padding: EdgeInsets.only(top: 24, left: 24, right: 24, bottom: 0),
             child: _buildBody(),
           ),
         )
@@ -77,11 +81,12 @@ class _LoginState extends State<Login>{
           SizedBox(height: 20),
           textFieldPassword(),
           SizedBox(height: 20),
-          fogotPassword(),
-          SizedBox(height: 30,),
+          forgotPassword(),
+          SizedBox(height: 30),
           logAndSign(),
-          SizedBox(height: 50,),
-          otherLoginMethods()
+          SizedBox(height: 45),
+          otherLoginMethods(),
+          SizedBox(height: 24)
         ],
       ),
     );
@@ -110,10 +115,10 @@ class _LoginState extends State<Login>{
   }
 
   Widget textFieldUsername(){
-    return Container(
-      height: 48,
-      child: TextField(
-        keyboardType: _getTextInput(),
+    return Padding(
+      padding: EdgeInsets.only(bottom: 0),
+      child: TextFormField(
+        controller: _usernameController,
         decoration: InputDecoration(
           border: OutlineInputBorder(
             borderRadius: BorderRadius.circular(5),
@@ -127,13 +132,24 @@ class _LoginState extends State<Login>{
           ),
           hintText: LocaleKeys.hintUsername.tr(),
           hintStyle: TextStyle(
-            fontSize: 13
-          )
+            fontSize: 12
+          ),
+          contentPadding: EdgeInsets.all(15),
+          counterText: ""
         ),
         onChanged: (value){
           _loginBloc.usernameValueSink.add(value);
           _loginBloc.updateStateButton();
         },
+        validator: (_){
+          if(_usernameController.text.length == 0){
+            return LocaleKeys.canNotBeEmpty.tr();
+          }
+          else
+            return null;
+        },
+        autovalidateMode: AutovalidateMode.always,
+        maxLength: 255,
       ),
     );
   }
@@ -147,8 +163,8 @@ class _LoginState extends State<Login>{
   }
 
   Widget textFieldPassword(){
-    return Container(
-      height: 48,
+    return Padding(
+      padding: EdgeInsets.only(bottom: 0),
       child: StreamBuilder<bool>(
         stream: _loginBloc.obscureTextValueStream,
         builder: (context, snapshot){
@@ -156,7 +172,8 @@ class _LoginState extends State<Login>{
             return Container();
           }
           return snapshot.data
-            ? TextField(
+            ? TextFormField(
+              controller: _passwordController,
               keyboardType: _getTextInput(),
               decoration: InputDecoration(
                 border: OutlineInputBorder(
@@ -171,7 +188,7 @@ class _LoginState extends State<Login>{
                 ),
                 hintText: LocaleKeys.hintPassword.tr(),
                 hintStyle: TextStyle(
-                    fontSize: 13
+                    fontSize: 12
                 ),
                 suffixIcon: IconButton(
                   icon: Icon(
@@ -182,14 +199,29 @@ class _LoginState extends State<Login>{
                     _loginBloc.updateStatePassword(true);
                   },
                 ),
+                contentPadding: EdgeInsets.all(15),
+                counterText: ""
               ),
               obscureText: true,
               onChanged: (value){
                 _loginBloc.passwordValueSink.add(value);
                 _loginBloc.updateStateButton();
               },
+              validator: (_){
+                if(_passwordController.text.length == 0){
+                  return LocaleKeys.canNotBeEmpty.tr();
+                }
+                else if(_passwordController.text.length < 5){
+                  return LocaleKeys.passwordAtLeast.tr();
+                }
+                else
+                  return null;
+              },
+              autovalidateMode: AutovalidateMode.always,
+              maxLength: 100,
             )
-            : TextField(
+            : TextFormField(
+              controller: _passwordController,
               keyboardType: _getTextInput(),
               decoration: InputDecoration(
                 border: OutlineInputBorder(
@@ -214,20 +246,34 @@ class _LoginState extends State<Login>{
                   onPressed: (){
                     _loginBloc.updateStatePassword(false);
                   },
-                )
+                ),
+                contentPadding: EdgeInsets.all(15),
+                counterText: ""
               ),
               obscureText: false,
               onChanged: (value){
                 _loginBloc.passwordValueSink.add(value);
                 _loginBloc.updateStateButton();
               },
+              validator: (_){
+                if(_passwordController.text.length == 0){
+                  return LocaleKeys.canNotBeEmpty.tr();
+              }
+              else if(_passwordController.text.length < 5){
+                return LocaleKeys.passwordAtLeast.tr();
+              }
+              else
+                return null;
+              },
+              autovalidateMode: AutovalidateMode.always,
+              maxLength: 100,
             );
         }
       ),
     );
   }
 
-  Widget fogotPassword(){
+  Widget forgotPassword(){
     return Container(
       alignment: Alignment.topLeft,
       child: InkWell(
@@ -239,7 +285,7 @@ class _LoginState extends State<Login>{
           ),
         ),
         onTap: (){
-
+          /// Navigate to ForgotPasswordScreen
         },
       )
     );
@@ -259,7 +305,10 @@ class _LoginState extends State<Login>{
                 }
                 return snapshot.data
                 ? InkWell(
-                    onTap: (){},
+                    onTap: () async {
+                      await _loginBloc.userLogin();
+                      /// Navigate
+                    },
                     child: Container(
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(5),
@@ -313,7 +362,7 @@ class _LoginState extends State<Login>{
 
                 ),
                 onPressed: (){
-
+                  /// Navigate to SignUpScreen
                 },
               ),
             ),
@@ -359,7 +408,7 @@ class _LoginState extends State<Login>{
                   ),
                 ),
               ),
-              SizedBox(width: 5,),
+              SizedBox(width: 10,),
               Container(
                 decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(5),
@@ -384,5 +433,6 @@ class _LoginState extends State<Login>{
       ),
     );
   }
+
 
 }
