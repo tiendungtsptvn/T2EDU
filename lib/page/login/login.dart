@@ -1,4 +1,3 @@
-
 import 'dart:io';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
@@ -7,12 +6,12 @@ import 'package:t4edu_source_source/global/app_color.dart';
 import 'package:t4edu_source_source/page/login/login_bloc.dart';
 import 'package:t4edu_source_source/translations/locale_keys.g.dart';
 
-class LoginPage extends StatefulWidget{
+class LoginPage extends StatefulWidget {
   @override
   _LoginPageState createState() => _LoginPageState();
 }
-class _LoginPageState extends State<LoginPage>{
 
+class _LoginPageState extends State<LoginPage> {
   TextEditingController _usernameController = TextEditingController();
   TextEditingController _passwordController = TextEditingController();
   GlobalKey<FormState> _key = GlobalKey();
@@ -23,6 +22,7 @@ class _LoginPageState extends State<LoginPage>{
     super.initState();
     _loginBloc = LoginBloc();
   }
+
   @override
   void dispose() {
     super.dispose();
@@ -43,7 +43,7 @@ class _LoginPageState extends State<LoginPage>{
             backgroundColor: Colors.transparent,
             leading: IconButton(
               icon: Icon(Icons.arrow_back_ios),
-              onPressed: (){
+              onPressed: () {
                 /// Navigate to previous Screen
               },
             ),
@@ -56,17 +56,15 @@ class _LoginPageState extends State<LoginPage>{
                 color: AppColors.white,
                 borderRadius: BorderRadius.only(
                     topLeft: Radius.circular(10),
-                    topRight: Radius.circular(10)
-                )
-            ),
+                    topRight: Radius.circular(10))),
             child: Padding(
               padding: EdgeInsets.only(top: 24, left: 24, right: 24, bottom: 0),
               child: _buildBody(),
             ),
-          )
-      ),
+          )),
     );
   }
+
   Widget _buildBody() {
     return Form(
       key: _key,
@@ -75,46 +73,39 @@ class _LoginPageState extends State<LoginPage>{
           SizedBox(height: 5),
           screenName(),
           SizedBox(height: 3),
-          welcome(),
+          _welcome(),
           SizedBox(height: 90),
-          textFieldUsername(),
+          _textFieldUsername(),
           SizedBox(height: 20),
-          textFieldPassword(),
+          _textFieldPassword(),
           SizedBox(height: 20),
-          forgotPassword(),
+          _forgotPassword(),
           SizedBox(height: 30),
-          logAndSign(),
+          _logAndSign(),
           SizedBox(height: 45),
-          otherLoginMethods(),
+          _otherLoginMethods(),
           SizedBox(height: 24)
         ],
       ),
     );
   }
 
-  Widget screenName(){
+  Widget screenName() {
     return Text(
       LocaleKeys.login.tr(),
       style: TextStyle(
-          color: AppColors.secColor,
-          fontSize: 20,
-          fontWeight: FontWeight.bold
-      ),
-
+          color: AppColors.secColor, fontSize: 20, fontWeight: FontWeight.bold),
     );
   }
 
-  Widget welcome(){
+  Widget _welcome() {
     return Text(
       LocaleKeys.welcome.tr(),
-      style: TextStyle(
-          color: AppColors.thiColor,
-          fontSize: 14
-      ),
+      style: TextStyle(color: AppColors.thiColor, fontSize: 14),
     );
   }
 
-  Widget textFieldUsername(){
+  Widget _textFieldUsername() {
     return Padding(
       padding: EdgeInsets.only(bottom: 0),
       child: TextFormField(
@@ -122,8 +113,7 @@ class _LoginPageState extends State<LoginPage>{
         decoration: InputDecoration(
             border: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(5),
-                borderSide: BorderSide.none
-            ),
+                borderSide: BorderSide.none),
             filled: true,
             fillColor: AppColors.itemBackground,
             prefixIcon: Icon(
@@ -131,21 +121,17 @@ class _LoginPageState extends State<LoginPage>{
               size: 18,
             ),
             hintText: LocaleKeys.hintUsername.tr(),
-            hintStyle: TextStyle(
-                fontSize: 12
-            ),
+            hintStyle: TextStyle(fontSize: 12),
             contentPadding: EdgeInsets.all(15),
-            counterText: ""
-        ),
-        onChanged: (value){
+            counterText: ""),
+        onChanged: (value) {
           _loginBloc.usernameValueSink.add(value);
           _loginBloc.updateStateButton();
         },
-        validator: (_){
-          if(_usernameController.text.length == 0){
+        validator: (_) {
+          if (_usernameController.text.length == 0) {
             return LocaleKeys.canNotBeEmpty.tr();
-          }
-          else
+          } else
             return null;
         },
         autovalidateMode: AutovalidateMode.always,
@@ -154,144 +140,118 @@ class _LoginPageState extends State<LoginPage>{
     );
   }
 
-  _getTextInput() {
-    if (Platform.isIOS) {
-      return TextInputType.name;
-    } else if (Platform.isAndroid) {
-      return TextInputType.name;
-    }
-  }
 
-  Widget textFieldPassword(){
+  Widget _textFieldPassword() {
     return Padding(
       padding: EdgeInsets.only(bottom: 0),
       child: StreamBuilder<bool>(
           stream: _loginBloc.obscureTextValueStream,
-          builder: (context, snapshot){
-            if(snapshot.data == null){
+          builder: (context, snapshot) {
+            if (snapshot.data == null) {
               return Container();
             }
             return snapshot.data
                 ? TextFormField(
-              controller: _passwordController,
-              keyboardType: _getTextInput(),
-              decoration: InputDecoration(
-                  border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(5),
-                      borderSide: BorderSide.none
-                  ),
-                  filled: true,
-                  fillColor: AppColors.itemBackground,
-                  prefixIcon: Icon(
-                    Icons.lock_rounded,
-                    size: 18,
-                  ),
-                  hintText: LocaleKeys.hintPassword.tr(),
-                  hintStyle: TextStyle(
-                      fontSize: 12
-                  ),
-                  suffixIcon: IconButton(
-                    icon: Icon(
-                      Icons.remove_red_eye_outlined,
-                      size: 18,
-                    ),
-                    onPressed: (){
-                      _loginBloc.updateStatePassword(true);
+                    controller: _passwordController,
+                    decoration: InputDecoration(
+                        border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(5),
+                            borderSide: BorderSide.none),
+                        filled: true,
+                        fillColor: AppColors.itemBackground,
+                        prefixIcon: Icon(
+                          Icons.lock_rounded,
+                          size: 18,
+                        ),
+                        hintText: LocaleKeys.hintPassword.tr(),
+                        hintStyle: TextStyle(fontSize: 12),
+                        suffixIcon: IconButton(
+                          icon: Icon(
+                            Icons.remove_red_eye_outlined,
+                            size: 18,
+                          ),
+                          onPressed: () {
+                            _loginBloc.updateStatePassword(true);
+                          },
+                        ),
+                        contentPadding: EdgeInsets.all(15),
+                        counterText: ""),
+                    obscureText: true,
+                    onChanged: (value) {
+                      _loginBloc.passwordValueSink.add(value);
+                      _loginBloc.updateStateButton();
                     },
-                  ),
-                  contentPadding: EdgeInsets.all(15),
-                  counterText: ""
-              ),
-              obscureText: true,
-              onChanged: (value){
-                _loginBloc.passwordValueSink.add(value);
-                _loginBloc.updateStateButton();
-              },
-              validator: (_){
-                if(_passwordController.text.length == 0){
-                  return LocaleKeys.canNotBeEmpty.tr();
-                }
-                else if(_passwordController.text.length < 5){
-                  return LocaleKeys.passwordAtLeast.tr();
-                }
-                else
-                  return null;
-              },
-              autovalidateMode: AutovalidateMode.always,
-              maxLength: 100,
-            )
+                    validator: (_) {
+                      if (_passwordController.text.length == 0) {
+                        return LocaleKeys.canNotBeEmpty.tr();
+                      } else if (_passwordController.text.length < 5) {
+                        return LocaleKeys.passwordAtLeast.tr();
+                      } else
+                        return null;
+                    },
+                    autovalidateMode: AutovalidateMode.always,
+                    maxLength: 100,
+                  )
                 : TextFormField(
-              controller: _passwordController,
-              keyboardType: _getTextInput(),
-              decoration: InputDecoration(
-                  border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(5),
-                      borderSide: BorderSide.none
-                  ),
-                  filled: true,
-                  fillColor: AppColors.itemBackground,
-                  prefixIcon: Icon(
-                    Icons.lock_rounded,
-                    size: 18,
-                  ),
-                  hintText: LocaleKeys.hintPassword.tr(),
-                  hintStyle: TextStyle(
-                      fontSize: 13
-                  ),
-                  suffixIcon: IconButton(
-                    icon: Icon(
-                      Icons.remove_red_eye_outlined,
-                      size: 18,
-                    ),
-                    onPressed: (){
-                      _loginBloc.updateStatePassword(false);
+                    controller: _passwordController,
+                    decoration: InputDecoration(
+                        border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(5),
+                            borderSide: BorderSide.none),
+                        filled: true,
+                        fillColor: AppColors.itemBackground,
+                        prefixIcon: Icon(
+                          Icons.lock_rounded,
+                          size: 18,
+                        ),
+                        hintText: LocaleKeys.hintPassword.tr(),
+                        hintStyle: TextStyle(fontSize: 13),
+                        suffixIcon: IconButton(
+                          icon: Icon(
+                            Icons.remove_red_eye_outlined,
+                            size: 18,
+                          ),
+                          onPressed: () {
+                            _loginBloc.updateStatePassword(false);
+                          },
+                        ),
+                        contentPadding: EdgeInsets.all(15),
+                        counterText: ""),
+                    obscureText: false,
+                    onChanged: (value) {
+                      _loginBloc.passwordValueSink.add(value);
+                      _loginBloc.updateStateButton();
                     },
-                  ),
-                  contentPadding: EdgeInsets.all(15),
-                  counterText: ""
-              ),
-              obscureText: false,
-              onChanged: (value){
-                _loginBloc.passwordValueSink.add(value);
-                _loginBloc.updateStateButton();
-              },
-              validator: (_){
-                if(_passwordController.text.length == 0){
-                  return LocaleKeys.canNotBeEmpty.tr();
-                }
-                else if(_passwordController.text.length < 5){
-                  return LocaleKeys.passwordAtLeast.tr();
-                }
-                else
-                  return null;
-              },
-              autovalidateMode: AutovalidateMode.always,
-              maxLength: 100,
-            );
-          }
-      ),
+                    validator: (_) {
+                      if (_passwordController.text.length == 0) {
+                        return LocaleKeys.canNotBeEmpty.tr();
+                      } else if (_passwordController.text.length < 5) {
+                        return LocaleKeys.passwordAtLeast.tr();
+                      } else
+                        return null;
+                    },
+                    autovalidateMode: AutovalidateMode.always,
+                    maxLength: 100,
+                  );
+          }),
     );
   }
 
-  Widget forgotPassword(){
+  Widget _forgotPassword() {
     return Container(
         alignment: Alignment.topLeft,
         child: InkWell(
           child: Text(
             LocaleKeys.forgotPassword.tr(),
-            style: TextStyle(
-                color: AppColors.secColor,
-                fontSize: 12
-            ),
+            style: TextStyle(color: AppColors.secColor, fontSize: 12),
           ),
-          onTap: (){
+          onTap: () {
             /// Navigate to ForgotPasswordScreen
           },
-        )
-    );
+        ));
   }
 
-  Widget logAndSign(){
+  Widget _logAndSign() {
     return Container(
       child: Row(
         children: [
@@ -300,52 +260,46 @@ class _LoginPageState extends State<LoginPage>{
             child: StreamBuilder<bool>(
                 stream: _loginBloc.enableButtonLoginStream,
                 builder: (context, snapshot) {
-                  if(snapshot.data == null){
+                  if (snapshot.data == null) {
                     return Container();
                   }
                   return snapshot.data
                       ? InkWell(
-                    onTap: () async {
-                      await _loginBloc.userLogin();
-                      /// Navigate
-                    },
-                    child: Container(
-                      decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(5),
-                          color: AppColors.secColor
-                      ),
-                      height: 50,
-                      width: 140,
-                      child: Center(
-                        child: Text(
-                          LocaleKeys.login.tr(),
-                          style: TextStyle(
-                              color: AppColors.white,
-                              fontSize: 14
+                          onTap: () async {
+                            await _loginBloc.userLogin();
+
+                            /// Navigate
+                          },
+                          child: Container(
+                            decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(5),
+                                color: AppColors.secColor),
+                            height: 50,
+                            width: 140,
+                            child: Center(
+                              child: Text(
+                                LocaleKeys.login.tr(),
+                                style: TextStyle(
+                                    color: AppColors.white, fontSize: 14),
+                              ),
+                            ),
                           ),
-                        ),
-                      ),
-                    ),
-                  )
+                        )
                       : Container(
-                    decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(5),
-                        color: AppColors.lightGrey
-                    ),
-                    height: 50,
-                    width: 140,
-                    child: Center(
-                      child: Text(
-                        LocaleKeys.login.tr(),
-                        style: TextStyle(
-                            color: AppColors.white,
-                            fontSize: 14
-                        ),
-                      ),
-                    ),
-                  );
-                }
-            ),
+                          decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(5),
+                              color: AppColors.lightGrey),
+                          height: 50,
+                          width: 140,
+                          child: Center(
+                            child: Text(
+                              LocaleKeys.login.tr(),
+                              style: TextStyle(
+                                  color: AppColors.white, fontSize: 14),
+                            ),
+                          ),
+                        );
+                }),
           ),
           SizedBox(width: 20),
           Expanded(
@@ -357,11 +311,9 @@ class _LoginPageState extends State<LoginPage>{
                   style: TextStyle(
                       color: AppColors.black,
                       fontSize: 14,
-                      decoration: TextDecoration.underline
-                  ),
-
+                      decoration: TextDecoration.underline),
                 ),
-                onPressed: (){
+                onPressed: () {
                   /// Navigate to SignUpScreen
                 },
               ),
@@ -372,7 +324,7 @@ class _LoginPageState extends State<LoginPage>{
     );
   }
 
-  Widget otherLoginMethods(){
+  Widget _otherLoginMethods() {
     return Container(
       alignment: Alignment.topLeft,
       child: Column(
@@ -381,20 +333,18 @@ class _LoginPageState extends State<LoginPage>{
             alignment: Alignment.topLeft,
             child: Text(
               LocaleKeys.orLoginWith.tr(),
-              style: TextStyle(
-                  color: AppColors.secColor,
-                  fontSize: 12
-              ),
+              style: TextStyle(color: AppColors.secColor, fontSize: 12),
             ),
           ),
-          SizedBox(height: 10,),
+          SizedBox(
+            height: 10,
+          ),
           Row(
             children: [
               Container(
                 decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(5),
-                    color: AppColors.secColor
-                ),
+                    color: AppColors.secColor),
                 height: 50,
                 width: 50,
                 child: Center(
@@ -403,17 +353,17 @@ class _LoginPageState extends State<LoginPage>{
                     style: TextStyle(
                         color: AppColors.white,
                         fontSize: 25,
-                        fontWeight: FontWeight.bold
-                    ),
+                        fontWeight: FontWeight.bold),
                   ),
                 ),
               ),
-              SizedBox(width: 10,),
+              SizedBox(
+                width: 10,
+              ),
               Container(
                 decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(5),
-                    color: AppColors.orange
-                ),
+                    color: AppColors.orange),
                 height: 50,
                 width: 50,
                 child: Center(
@@ -422,8 +372,7 @@ class _LoginPageState extends State<LoginPage>{
                     style: TextStyle(
                         color: AppColors.white,
                         fontSize: 25,
-                        fontWeight: FontWeight.bold
-                    ),
+                        fontWeight: FontWeight.bold),
                   ),
                 ),
               ),
@@ -433,6 +382,4 @@ class _LoginPageState extends State<LoginPage>{
       ),
     );
   }
-
-
 }
