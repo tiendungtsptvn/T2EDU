@@ -22,8 +22,6 @@ class LoginBloc extends BlocBase {
 
   final BehaviorSubject<bool> _enableButtonLogin =
       BehaviorSubject.seeded(false);
-  // this constructor takes 1 argument which like a initial value
-  Sink<bool> get enableButtonLoginSink => _enableButtonLogin.sink;
   Stream<bool> get enableButtonLoginStream => _enableButtonLogin.stream;
 
   final BehaviorSubject<String> _usernameValue = BehaviorSubject();
