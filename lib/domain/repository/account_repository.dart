@@ -1,5 +1,5 @@
-
+import 'package:t4edu_source_source/domain/models/access_token.dart';
 
 abstract class AccountRepository {
-  Future <void> userLogin(String username, String password);
+  Future<Token> userLogin(String username, String password);
 }

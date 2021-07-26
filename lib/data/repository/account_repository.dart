@@ -10,12 +10,12 @@ class AccountRepositoryIml extends AccountRepository {
   AccountRepositoryIml(this._clientAccount);
 
   @override
-  Future<void> userLogin(String username, String password) async{
+  Future<Token> userLogin(String username, String password) async{
     try{
       String path = "/auth/login";
 
       final dynamic response = await _clientAccount.post(path,data: <String, dynamic>{
-        'username':username,
+        'emailOrPhone':username,
         'password':password
       });
 
@@ -27,7 +27,9 @@ class AccountRepositoryIml extends AccountRepository {
             ..setAccessToken(token.accessToken)
             ..setRefreshToken(token.refreshToken);
         }
+        return token;
       }
+      return null;
     }catch(error){
       throw error;
     }

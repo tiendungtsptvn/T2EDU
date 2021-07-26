@@ -6,6 +6,7 @@ import 'package:dio_cookie_manager/dio_cookie_manager.dart';
 import 'package:easy_localization/easy_localization.dart';
 
 import 'package:dio/dio.dart';
+import 'package:t4edu_source_source/global/app_toast.dart';
 import 'package:t4edu_source_source/source/api/api_error.dart';
 import 'package:t4edu_source_source/source/api/api_response.dart';
 import 'package:t4edu_source_source/translations/locale_keys.g.dart';
@@ -90,8 +91,13 @@ class RestClientBase {
 
       ApiResponse res = _mapResponse(response.data);
 
+      /// sai mat khai, <400 404> => Backend co tra data, trong data chu ma loi, respone['code'] = 0,
+      if(res.code != '0'){
+        _mapErrorResponse(res);
+      }
       return res.data;
     } catch (e) {
+      /// 500 502 là lỗi server nhảy vào đây
       throw _mapError(e);
     }
   }
@@ -176,32 +182,32 @@ class RestClientBase {
       switch (e.type) {
         case DioErrorType.connectTimeout:
           return ApiError(
-              errorCode: 'CONNECT_TIMEOUT',
+              code: 'CONNECT_TIMEOUT',
               message: '${LocaleKeys.error_message_default.tr()} (timeout)');
         case DioErrorType.sendTimeout:
           return ApiError(
-              errorCode: 'SEND_TIMEOUT',
+              code: 'SEND_TIMEOUT',
               message:
                   '${LocaleKeys.error_message_default.tr()} (send timeout)');
         case DioErrorType.receiveTimeout:
           return ApiError(
-              errorCode: 'RECEIVE_TIMEOUT',
+              code: 'RECEIVE_TIMEOUT',
               message:
                   '${LocaleKeys.error_message_default.tr()} (receive timeout)');
         case DioErrorType.cancel:
           return ApiError(
-              errorCode: 'CANCEL',
+              code: 'CANCEL',
               message: '${LocaleKeys.error_message_default.tr()} (cancel)');
         case DioErrorType.other:
           String mms = e?.message;
 
           // https://github.com/flutterchina/dio/issues/817
           if (mms != null && mms.contains("Future<dynamic>")) {
-            return ApiError(errorCode: 'DEFAULT', message: "ERROR_IGNORE");
+            return ApiError(code: 'DEFAULT', message: "ERROR_IGNORE");
           }
 
           return ApiError(
-            errorCode: 'DEFAULT',
+            code: 'DEFAULT',
             message: LocaleKeys.error_message_default.tr(),
           );
         case DioErrorType.response:
@@ -214,7 +220,7 @@ class RestClientBase {
               code == '502' ||
               code == '503') {
             return ApiError(
-                errorCode: code,
+                code: code,
                 message: LocaleKeys.error_message_default.tr());
           }
 
@@ -243,7 +249,7 @@ class RestClientBase {
           }
 
           return ApiError(
-            errorCode: code,
+            code: code,
             message: msg,
           );
       }
@@ -258,5 +264,9 @@ class RestClientBase {
     }
 
     return ApiResponse.fromJson(response);
+  }
+
+  ApiResponse _mapErrorResponse(ApiResponse response){
+    AppToast.showError(response.message);
   }
 }
