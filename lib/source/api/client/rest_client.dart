@@ -55,7 +55,7 @@ class RestClientBase {
     ProgressCallback onReceiveProgress,
   }) async {
     try {
-      final Response<dynamic> response = await _dio.get<dynamic>(
+      final  Response<dynamic> response = await _dio.get<dynamic>(
         path,
         queryParameters: queryParameters,
         options: options,
@@ -63,7 +63,12 @@ class RestClientBase {
         onReceiveProgress: onReceiveProgress,
       );
 
-      return response.data;
+      ApiResponse res = _mapResponse(response.data);
+
+      if(res.code != '0'){
+        throw response;
+      }
+      return res.data;
     } catch (e) {
       throw _mapError(e);
     }
@@ -91,13 +96,11 @@ class RestClientBase {
 
       ApiResponse res = _mapResponse(response.data);
 
-      /// sai mat khai, <400 404> => Backend co tra data, trong data chu ma loi, respone['code'] = 0,
       if(res.code != '0'){
-        _mapErrorResponse(res);
+        throw res;
       }
       return res.data;
     } catch (e) {
-      /// 500 502 là lỗi server nhảy vào đây
       throw _mapError(e);
     }
   }
@@ -122,6 +125,9 @@ class RestClientBase {
 
       ApiResponse res = _mapResponse(response.data);
 
+      if(res.code != '0'){
+        throw response;
+      }
       return res.data;
     } catch (e) {
       throw _mapError(e);
@@ -148,6 +154,9 @@ class RestClientBase {
 
       ApiResponse res = _mapResponse(response.data);
 
+      if(res.code != '0'){
+        throw response;
+      }
       return res.data;
     } catch (e) {
       throw _mapError(e);
@@ -168,11 +177,11 @@ class RestClientBase {
 
       ApiResponse res = _mapResponse(response.data);
 
+      if(res.code != '0'){
+        throw response;
+      }
       return res.data;
     } catch (e) {
-      print("*******************Exception_START*******************");
-      print(e);
-      print("*******************Exception_END*******************");
       throw _mapError(e);
     }
   }
@@ -221,41 +230,20 @@ class RestClientBase {
               code == '503') {
             return ApiError(
                 code: code,
-                message: LocaleKeys.error_message_default.tr());
-          }
-
-          String msg = "ERR$code".tr();
-
-          if (e?.response?.data != null && e?.response?.data is Map) {
-            try {
-              dynamic errorData = e.response.data;
-              code =
-                  (errorData['errorCode']?.toString() ?? code).replaceAll("-", "_");
-
-              msg = "ERR$code".tr();
-
-              if (msg.startsWith("ERR")) {
-                msg = errorData["message"];
-              }
-              //Nếu msg null or empty thì ném cái lỗi mặc định ra
-              if (msg == null || msg.isEmpty) {
-                msg = LocaleKeys.something_error.tr();
-              }
-            } catch (error) {
-              print(error);
-            } finally {
-              print(e?.response?.data.toString() ?? code);
-            }
+                message: "Lỗi đường truyền, xin vui lòng thử lại sau ít phút!");
           }
 
           return ApiError(
-            code: code,
-            message: msg,
+            code: '${e.error}',
+            message: '${e.message}',
           );
       }
     }
 
-    return ApiError();
+    return ApiError(
+      code: '${e.code}',
+      message: '${e.message}',
+    );
   }
 
   ApiResponse _mapResponse(dynamic response) {
@@ -264,9 +252,5 @@ class RestClientBase {
     }
 
     return ApiResponse.fromJson(response);
-  }
-
-  ApiResponse _mapErrorResponse(ApiResponse response){
-    AppToast.showError(response.message);
   }
 }
