@@ -13,7 +13,7 @@ class _SplashScreenState extends State<SplashScreen> with TickerProviderStateMix
   @override
   void initState() {
     new Future.delayed(const Duration(seconds: 2), () {
-      Navigator.pushNamed(context, AppRouter.mainPage);
+      Navigator.pushNamed(context, AppRouter.login);
     });
     super.initState();
   }
@@ -27,6 +27,15 @@ class _SplashScreenState extends State<SplashScreen> with TickerProviderStateMix
   Widget build(BuildContext context) {
     return Scaffold(
       body: Container(
+        height: double.infinity,
+        child: Center(
+          child: Text("Splash",
+            style: TextStyle(
+              color: Colors.black,
+              fontSize: 25
+            ),
+          ),
+        ),
         // height: double.infinity,
         // child: Center(
         //   child: Image.asset(

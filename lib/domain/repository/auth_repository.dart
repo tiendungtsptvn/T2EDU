@@ -1,6 +1,7 @@
 
 
+import 'package:t4edu_source_source/domain/models/access_token.dart';
+
 abstract class AuthRepository {
-  Future<void> login(String userName, String passWord);
-  Future<void> signUp(String userName, String passWord);
+  Future<Token> userLogin(String username, String password);
 }

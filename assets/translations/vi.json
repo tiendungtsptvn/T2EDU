@@ -1,5 +1,15 @@
 {
   "error_message_default": "Có lỗi kết nối đến máy chủ. Quý khách vui lòng thử lại",
   "something_error": "Đã có lỗi xảy ra. Vui lòng thử lại",
-  "an_error_occurred": "Đã có lỗi xảy ra"
+  "an_error_occurred": "Đã có lỗi xảy ra",
+  "login": "Đăng Nhập",
+  "comment1": "LoginScreen-->",
+  "welcome": "Chào mừng bạn đến với T4Edu!",
+  "hintUsername": "Địa chỉ email hoặc số điện thoại",
+  "hintPassword": "Mật khẩu",
+  "forgotPassword": "Quên mật khẩu?",
+  "signup": "Đăng ký mới",
+  "orLoginWith": "Hoặc đăng nhập với",
+  "canNotBeEmpty": "Không được bỏ trống",
+  "passwordAtLeast": "Mật khẩu chứa ít nhất 5 ký tự"
 }
