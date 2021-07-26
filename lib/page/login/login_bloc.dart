@@ -6,7 +6,7 @@ import 'package:t4edu_source_source/domain/models/access_token.dart';
 import 'package:t4edu_source_source/global/app_toast.dart';
 import 'package:t4edu_source_source/helpers/Utils.dart';
 
-class LoginBloc extends BlocBase{
+class LoginBloc extends BlocBase {
   final AuthRepositoryIml _apiAuth = GetIt.I<AuthRepositoryIml>();
   LoginBloc() {
     _bind();
@@ -21,7 +21,7 @@ class LoginBloc extends BlocBase{
   void _bind() {}
 
   final BehaviorSubject<bool> _enableButtonLogin =
-  BehaviorSubject.seeded(false);
+      BehaviorSubject.seeded(false);
   // this constructor takes 1 argument which like a initial value
   Sink<bool> get enableButtonLoginSink => _enableButtonLogin.sink;
   Stream<bool> get enableButtonLoginStream => _enableButtonLogin.stream;
@@ -42,33 +42,32 @@ class LoginBloc extends BlocBase{
     if (_usernameValue.valueWrapper.toString() != "" &&
         _passwordValue.valueWrapper.toString() != "" &&
         _passwordValue.valueWrapper.toString().length > 4) {
-      enableButtonLoginSink.add(true);
-    } else
-      enableButtonLoginSink.add(false);
+      if (!_enableButtonLogin.isClosed) _enableButtonLogin.add(true);
+    } else if (!_enableButtonLogin.isClosed) _enableButtonLogin.add(false);
   }
 
-  void updateStatePassword(bool current){
+  void updateStatePassword(bool current) {
     obscureTextValueSink.add(!current);
   }
 
   Future<void> userLogin() async {
-    try{
-      Token token = await _apiAuth.userLogin(_usernameValue.valueWrapper.value,
-          _passwordValue.valueWrapper.value);
+    try {
+      Token token = await _apiAuth.userLogin(
+          _usernameValue.valueWrapper.value, _passwordValue.valueWrapper.value);
 
-      if(token != null){
+      if (token != null) {
         AppToast.showSuccess('Welcome to T4Edu');
       }
-    }catch(e){
+    } catch (e) {
       AppToast.showError(Utils.getMessageError(e));
     }
   }
 
   @override
   void dispose() {
-    _enableButtonLogin.close();
-    _usernameValue.close();
-    _passwordValue.close();
-    _obscureTextValue.close();
+    _enableButtonLogin?.close();
+    _usernameValue?.close();
+    _passwordValue?.close();
+    _obscureTextValue?.close();
   }
 }
