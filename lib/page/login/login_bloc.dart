@@ -1,13 +1,13 @@
 import 'package:get_it/get_it.dart';
 import 'package:rxdart/rxdart.dart';
 import 'package:t4edu_source_source/base/bloc_base.dart';
-import 'package:t4edu_source_source/data/repository/account_repository.dart';
+import 'package:t4edu_source_source/data/repository/auth_repository.dart';
 import 'package:t4edu_source_source/domain/models/access_token.dart';
 import 'package:t4edu_source_source/global/app_toast.dart';
 import 'package:t4edu_source_source/helpers/Utils.dart';
 
 class LoginBloc extends BlocBase{
-  final AccountRepositoryIml _apiAccount = GetIt.I<AccountRepositoryIml>();
+  final AuthRepositoryIml _apiAuth = GetIt.I<AuthRepositoryIml>();
   LoginBloc() {
     _bind();
   }
@@ -53,7 +53,7 @@ class LoginBloc extends BlocBase{
 
   Future<void> userLogin() async {
     try{
-      Token token = await _apiAccount.userLogin(_usernameValue.valueWrapper.value,
+      Token token = await _apiAuth.userLogin(_usernameValue.valueWrapper.value,
           _passwordValue.valueWrapper.value);
 
       if(token != null){

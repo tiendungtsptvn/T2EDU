@@ -36,6 +36,12 @@ class _SplashScreenState extends State<SplashScreen> with TickerProviderStateMix
             ),
           ),
         ),
+        // height: double.infinity,
+        // child: Center(
+        //   child: Image.asset(
+        //     AppPath.logo_login,
+        //   ),
+        // ),
       ),
     );
   }

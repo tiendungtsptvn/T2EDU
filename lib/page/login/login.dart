@@ -37,33 +37,33 @@ class _LoginPageState extends State<LoginPage>{
         FocusScope.of(context).requestFocus(new FocusNode());
       },
       child: Scaffold(
-        resizeToAvoidBottomInset: true,
-        backgroundColor: AppColors.background,
-        appBar: AppBar(
-          backgroundColor: Colors.transparent,
-          leading: IconButton(
-            icon: Icon(Icons.arrow_back_ios),
-            onPressed: (){
-              /// Navigate to previous Screen
-            },
+          resizeToAvoidBottomInset: true,
+          backgroundColor: AppColors.background,
+          appBar: AppBar(
+            backgroundColor: Colors.transparent,
+            leading: IconButton(
+              icon: Icon(Icons.arrow_back_ios),
+              onPressed: (){
+                /// Navigate to previous Screen
+              },
+            ),
+            elevation: 0.0,
           ),
-          elevation: 0.0,
-        ),
-        body: Container(
-          margin: EdgeInsets.only(top: size.height * 0.05),
-          height: size.height,
-          decoration: BoxDecoration(
-            color: AppColors.white,
-            borderRadius: BorderRadius.only(
-              topLeft: Radius.circular(10),
-              topRight: Radius.circular(10)
-            )
-          ),
-          child: Padding(
-            padding: EdgeInsets.only(top: 24, left: 24, right: 24, bottom: 0),
-            child: _buildBody(),
-          ),
-        )
+          body: Container(
+            margin: EdgeInsets.only(top: size.height * 0.05),
+            height: size.height,
+            decoration: BoxDecoration(
+                color: AppColors.white,
+                borderRadius: BorderRadius.only(
+                    topLeft: Radius.circular(10),
+                    topRight: Radius.circular(10)
+                )
+            ),
+            child: Padding(
+              padding: EdgeInsets.only(top: 24, left: 24, right: 24, bottom: 0),
+              child: _buildBody(),
+            ),
+          )
       ),
     );
   }
@@ -96,9 +96,9 @@ class _LoginPageState extends State<LoginPage>{
     return Text(
       LocaleKeys.login.tr(),
       style: TextStyle(
-        color: AppColors.secColor,
-        fontSize: 20,
-        fontWeight: FontWeight.bold
+          color: AppColors.secColor,
+          fontSize: 20,
+          fontWeight: FontWeight.bold
       ),
 
     );
@@ -108,8 +108,8 @@ class _LoginPageState extends State<LoginPage>{
     return Text(
       LocaleKeys.welcome.tr(),
       style: TextStyle(
-        color: AppColors.thiColor,
-        fontSize: 14
+          color: AppColors.thiColor,
+          fontSize: 14
       ),
     );
   }
@@ -120,22 +120,22 @@ class _LoginPageState extends State<LoginPage>{
       child: TextFormField(
         controller: _usernameController,
         decoration: InputDecoration(
-          border: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(5),
-            borderSide: BorderSide.none
-          ),
-          filled: true,
-          fillColor: AppColors.itemBackground,
-          prefixIcon: Icon(
-            Icons.account_box,
-            size: 18,
-          ),
-          hintText: LocaleKeys.hintUsername.tr(),
-          hintStyle: TextStyle(
-            fontSize: 12
-          ),
-          contentPadding: EdgeInsets.all(15),
-          counterText: ""
+            border: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(5),
+                borderSide: BorderSide.none
+            ),
+            filled: true,
+            fillColor: AppColors.itemBackground,
+            prefixIcon: Icon(
+              Icons.account_box,
+              size: 18,
+            ),
+            hintText: LocaleKeys.hintUsername.tr(),
+            hintStyle: TextStyle(
+                fontSize: 12
+            ),
+            contentPadding: EdgeInsets.all(15),
+            counterText: ""
         ),
         onChanged: (value){
           _loginBloc.usernameValueSink.add(value);
@@ -166,41 +166,41 @@ class _LoginPageState extends State<LoginPage>{
     return Padding(
       padding: EdgeInsets.only(bottom: 0),
       child: StreamBuilder<bool>(
-        stream: _loginBloc.obscureTextValueStream,
-        builder: (context, snapshot){
-          if(snapshot.data == null){
-            return Container();
-          }
-          return snapshot.data
-            ? TextFormField(
+          stream: _loginBloc.obscureTextValueStream,
+          builder: (context, snapshot){
+            if(snapshot.data == null){
+              return Container();
+            }
+            return snapshot.data
+                ? TextFormField(
               controller: _passwordController,
               keyboardType: _getTextInput(),
               decoration: InputDecoration(
-                border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(5),
-                    borderSide: BorderSide.none
-                ),
-                filled: true,
-                fillColor: AppColors.itemBackground,
-                prefixIcon: Icon(
-                  Icons.lock_rounded,
-                  size: 18,
-                ),
-                hintText: LocaleKeys.hintPassword.tr(),
-                hintStyle: TextStyle(
-                    fontSize: 12
-                ),
-                suffixIcon: IconButton(
-                  icon: Icon(
-                    Icons.remove_red_eye_outlined,
+                  border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(5),
+                      borderSide: BorderSide.none
+                  ),
+                  filled: true,
+                  fillColor: AppColors.itemBackground,
+                  prefixIcon: Icon(
+                    Icons.lock_rounded,
                     size: 18,
                   ),
-                  onPressed: (){
-                    _loginBloc.updateStatePassword(true);
-                  },
-                ),
-                contentPadding: EdgeInsets.all(15),
-                counterText: ""
+                  hintText: LocaleKeys.hintPassword.tr(),
+                  hintStyle: TextStyle(
+                      fontSize: 12
+                  ),
+                  suffixIcon: IconButton(
+                    icon: Icon(
+                      Icons.remove_red_eye_outlined,
+                      size: 18,
+                    ),
+                    onPressed: (){
+                      _loginBloc.updateStatePassword(true);
+                    },
+                  ),
+                  contentPadding: EdgeInsets.all(15),
+                  counterText: ""
               ),
               obscureText: true,
               onChanged: (value){
@@ -220,35 +220,35 @@ class _LoginPageState extends State<LoginPage>{
               autovalidateMode: AutovalidateMode.always,
               maxLength: 100,
             )
-            : TextFormField(
+                : TextFormField(
               controller: _passwordController,
               keyboardType: _getTextInput(),
               decoration: InputDecoration(
-                border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(5),
-                    borderSide: BorderSide.none
-                ),
-                filled: true,
-                fillColor: AppColors.itemBackground,
-                prefixIcon: Icon(
-                  Icons.lock_rounded,
-                  size: 18,
-                ),
-                hintText: LocaleKeys.hintPassword.tr(),
-                hintStyle: TextStyle(
-                    fontSize: 13
-                ),
-                suffixIcon: IconButton(
-                  icon: Icon(
-                    Icons.remove_red_eye_outlined,
+                  border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(5),
+                      borderSide: BorderSide.none
+                  ),
+                  filled: true,
+                  fillColor: AppColors.itemBackground,
+                  prefixIcon: Icon(
+                    Icons.lock_rounded,
                     size: 18,
                   ),
-                  onPressed: (){
-                    _loginBloc.updateStatePassword(false);
-                  },
-                ),
-                contentPadding: EdgeInsets.all(15),
-                counterText: ""
+                  hintText: LocaleKeys.hintPassword.tr(),
+                  hintStyle: TextStyle(
+                      fontSize: 13
+                  ),
+                  suffixIcon: IconButton(
+                    icon: Icon(
+                      Icons.remove_red_eye_outlined,
+                      size: 18,
+                    ),
+                    onPressed: (){
+                      _loginBloc.updateStatePassword(false);
+                    },
+                  ),
+                  contentPadding: EdgeInsets.all(15),
+                  counterText: ""
               ),
               obscureText: false,
               onChanged: (value){
@@ -258,36 +258,36 @@ class _LoginPageState extends State<LoginPage>{
               validator: (_){
                 if(_passwordController.text.length == 0){
                   return LocaleKeys.canNotBeEmpty.tr();
-              }
-              else if(_passwordController.text.length < 5){
-                return LocaleKeys.passwordAtLeast.tr();
-              }
-              else
-                return null;
+                }
+                else if(_passwordController.text.length < 5){
+                  return LocaleKeys.passwordAtLeast.tr();
+                }
+                else
+                  return null;
               },
               autovalidateMode: AutovalidateMode.always,
               maxLength: 100,
             );
-        }
+          }
       ),
     );
   }
 
   Widget forgotPassword(){
     return Container(
-      alignment: Alignment.topLeft,
-      child: InkWell(
-        child: Text(
-          LocaleKeys.forgotPassword.tr(),
-          style: TextStyle(
-              color: AppColors.secColor,
-              fontSize: 12
+        alignment: Alignment.topLeft,
+        child: InkWell(
+          child: Text(
+            LocaleKeys.forgotPassword.tr(),
+            style: TextStyle(
+                color: AppColors.secColor,
+                fontSize: 12
+            ),
           ),
-        ),
-        onTap: (){
-          /// Navigate to ForgotPasswordScreen
-        },
-      )
+          onTap: (){
+            /// Navigate to ForgotPasswordScreen
+          },
+        )
     );
   }
 
@@ -298,21 +298,21 @@ class _LoginPageState extends State<LoginPage>{
           Expanded(
             flex: 1,
             child: StreamBuilder<bool>(
-              stream: _loginBloc.enableButtonLoginStream,
-              builder: (context, snapshot) {
-                if(snapshot.data == null){
-                  return Container();
-                }
-                return snapshot.data
-                ? InkWell(
+                stream: _loginBloc.enableButtonLoginStream,
+                builder: (context, snapshot) {
+                  if(snapshot.data == null){
+                    return Container();
+                  }
+                  return snapshot.data
+                      ? InkWell(
                     onTap: () async {
                       await _loginBloc.userLogin();
                       /// Navigate
                     },
                     child: Container(
                       decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(5),
-                        color: AppColors.secColor
+                          borderRadius: BorderRadius.circular(5),
+                          color: AppColors.secColor
                       ),
                       height: 50,
                       width: 140,
@@ -320,31 +320,31 @@ class _LoginPageState extends State<LoginPage>{
                         child: Text(
                           LocaleKeys.login.tr(),
                           style: TextStyle(
-                            color: AppColors.white,
-                            fontSize: 14
+                              color: AppColors.white,
+                              fontSize: 14
                           ),
                         ),
                       ),
                     ),
-                )
-                : Container(
-                  decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(5),
-                      color: AppColors.lightGrey
-                  ),
-                  height: 50,
-                  width: 140,
-                  child: Center(
-                    child: Text(
-                      LocaleKeys.login.tr(),
-                      style: TextStyle(
-                          color: AppColors.white,
-                          fontSize: 14
+                  )
+                      : Container(
+                    decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(5),
+                        color: AppColors.lightGrey
+                    ),
+                    height: 50,
+                    width: 140,
+                    child: Center(
+                      child: Text(
+                        LocaleKeys.login.tr(),
+                        style: TextStyle(
+                            color: AppColors.white,
+                            fontSize: 14
+                        ),
                       ),
                     ),
-                  ),
-                );
-              }
+                  );
+                }
             ),
           ),
           SizedBox(width: 20),
@@ -382,8 +382,8 @@ class _LoginPageState extends State<LoginPage>{
             child: Text(
               LocaleKeys.orLoginWith.tr(),
               style: TextStyle(
-                color: AppColors.secColor,
-                fontSize: 12
+                  color: AppColors.secColor,
+                  fontSize: 12
               ),
             ),
           ),
