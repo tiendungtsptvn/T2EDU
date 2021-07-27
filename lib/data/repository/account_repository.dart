@@ -3,6 +3,7 @@ import 'package:get_it/get_it.dart';
 import 'package:t4edu_source_source/domain/models/access_token.dart';
 import 'package:t4edu_source_source/domain/repository/account_repository.dart';
 import 'package:t4edu_source_source/instance/Session.dart';
+import 'package:t4edu_source_source/source/api/client/rest/acount_client.dart';
 import 'package:t4edu_source_source/source/api/client/rest/task_client.dart';
 
 class AccountRepositoryIml extends AccountRepository {
