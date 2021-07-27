@@ -1,4 +1,3 @@
-import 'dart:io';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -59,7 +58,16 @@ class _LoginPageState extends State<LoginPage> {
                     topRight: Radius.circular(10))),
             child: Padding(
               padding: EdgeInsets.only(top: 24, left: 24, right: 24, bottom: 0),
-              child: _buildBody(),
+              child: StreamBuilder<bool>(
+                stream: _loginBloc.progressIndicatorValueStream,
+                builder: (context, snapshot){
+                  if(snapshot.data == null)
+                    return Container();
+                  return snapshot.data
+                      ? Center(child: CircularProgressIndicator())
+                      : _buildBody();
+                },
+              ),
             ),
           )),
     );
@@ -71,7 +79,7 @@ class _LoginPageState extends State<LoginPage> {
       child: ListView(
         children: [
           SizedBox(height: 5),
-          screenName(),
+          _screenName(),
           SizedBox(height: 3),
           _welcome(),
           SizedBox(height: 90),
@@ -90,7 +98,7 @@ class _LoginPageState extends State<LoginPage> {
     );
   }
 
-  Widget screenName() {
+  Widget _screenName() {
     return Text(
       LocaleKeys.login.tr(),
       style: TextStyle(
@@ -288,7 +296,7 @@ class _LoginPageState extends State<LoginPage> {
                       : Container(
                           decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(5),
-                              color: AppColors.lightGrey),
+                              color: AppColors.secColor),
                           height: 50,
                           width: 140,
                           child: Center(

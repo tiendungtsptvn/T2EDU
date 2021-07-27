@@ -113,8 +113,8 @@ class RefreshTokenInterceptor extends Interceptor {
       }
       return accessToken;
     }
-
     AppToast.showError("Đã xảy ra lỗi! Quý khách vui lòng thử lại sau");
+    return null;
   }
 
   @override
