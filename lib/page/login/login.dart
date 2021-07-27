@@ -38,7 +38,7 @@ class _LoginPageState extends State<LoginPage> {
       },
       child: Scaffold(
           resizeToAvoidBottomInset: true,
-          backgroundColor: AppColors.background,
+          backgroundColor: AppColors.priColor,
           appBar: AppBar(
             backgroundColor: Colors.transparent,
             leading: IconButton(

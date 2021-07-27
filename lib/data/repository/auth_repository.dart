@@ -5,7 +5,6 @@ import 'package:t4edu_source_source/domain/repository/auth_repository.dart';
 import 'package:t4edu_source_source/instance/Session.dart';
 import 'package:t4edu_source_source/source/api/api_error.dart';
 import 'package:t4edu_source_source/source/api/client/rest/auth_client.dart';
-import 'package:t4edu_source_source/source/api/client/rest/rest_client.dart';
 
 class AuthRepositoryIml extends AuthRepository {
   ClientAuth _clientAuth = GetIt.I<ClientAuth>();
