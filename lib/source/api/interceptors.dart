@@ -156,7 +156,7 @@ class RefreshTokenInterceptor extends Interceptor {
         dio.interceptors.errorLock.unlock();
       }).catchError((e) {
         // Handle refreshToken error, check if 400 then emit session expired.
-        final bool is400 = (e is ApiError && e.errorCode == '400') ||
+        final bool is400 = (e is ApiError && e.code == '400') ||
             (e is DioError && e.response?.statusCode == 400);
 
         if (is400) {

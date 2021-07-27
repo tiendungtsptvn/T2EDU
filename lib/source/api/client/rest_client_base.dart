@@ -6,6 +6,7 @@ import 'package:dio_cookie_manager/dio_cookie_manager.dart';
 import 'package:easy_localization/easy_localization.dart';
 
 import 'package:dio/dio.dart';
+import 'package:t4edu_source_source/global/app_toast.dart';
 import 'package:t4edu_source_source/source/api/api_error.dart';
 import 'package:t4edu_source_source/source/api/api_response.dart';
 import 'package:t4edu_source_source/translations/locale_keys.g.dart';
@@ -54,7 +55,7 @@ class RestClientBase {
     ProgressCallback onReceiveProgress,
   }) async {
     try {
-      final Response<dynamic> response = await _dio.get<dynamic>(
+      final  Response<dynamic> response = await _dio.get<dynamic>(
         path,
         queryParameters: queryParameters,
         options: options,
@@ -62,7 +63,12 @@ class RestClientBase {
         onReceiveProgress: onReceiveProgress,
       );
 
-      return response.data;
+      ApiResponse res = _mapResponse(response.data);
+
+      if(res.code != '0'){
+        throw response;
+      }
+      return res.data;
     } catch (e) {
       throw _mapError(e);
     }
@@ -90,6 +96,9 @@ class RestClientBase {
 
       ApiResponse res = _mapResponse(response.data);
 
+      if(res.code != '0'){
+        throw res;
+      }
       return res.data;
     } catch (e) {
       throw _mapError(e);
@@ -116,6 +125,9 @@ class RestClientBase {
 
       ApiResponse res = _mapResponse(response.data);
 
+      if(res.code != '0'){
+        throw response;
+      }
       return res.data;
     } catch (e) {
       throw _mapError(e);
@@ -142,6 +154,9 @@ class RestClientBase {
 
       ApiResponse res = _mapResponse(response.data);
 
+      if(res.code != '0'){
+        throw response;
+      }
       return res.data;
     } catch (e) {
       throw _mapError(e);
@@ -162,11 +177,11 @@ class RestClientBase {
 
       ApiResponse res = _mapResponse(response.data);
 
+      if(res.code != '0'){
+        throw response;
+      }
       return res.data;
     } catch (e) {
-      print("*******************Exception_START*******************");
-      print(e);
-      print("*******************Exception_END*******************");
       throw _mapError(e);
     }
   }
@@ -176,32 +191,32 @@ class RestClientBase {
       switch (e.type) {
         case DioErrorType.connectTimeout:
           return ApiError(
-              errorCode: 'CONNECT_TIMEOUT',
+              code: 'CONNECT_TIMEOUT',
               message: '${LocaleKeys.error_message_default.tr()} (timeout)');
         case DioErrorType.sendTimeout:
           return ApiError(
-              errorCode: 'SEND_TIMEOUT',
+              code: 'SEND_TIMEOUT',
               message:
                   '${LocaleKeys.error_message_default.tr()} (send timeout)');
         case DioErrorType.receiveTimeout:
           return ApiError(
-              errorCode: 'RECEIVE_TIMEOUT',
+              code: 'RECEIVE_TIMEOUT',
               message:
                   '${LocaleKeys.error_message_default.tr()} (receive timeout)');
         case DioErrorType.cancel:
           return ApiError(
-              errorCode: 'CANCEL',
+              code: 'CANCEL',
               message: '${LocaleKeys.error_message_default.tr()} (cancel)');
         case DioErrorType.other:
           String mms = e?.message;
 
           // https://github.com/flutterchina/dio/issues/817
           if (mms != null && mms.contains("Future<dynamic>")) {
-            return ApiError(errorCode: 'DEFAULT', message: "ERROR_IGNORE");
+            return ApiError(code: 'DEFAULT', message: "ERROR_IGNORE");
           }
 
           return ApiError(
-            errorCode: 'DEFAULT',
+            code: 'DEFAULT',
             message: LocaleKeys.error_message_default.tr(),
           );
         case DioErrorType.response:
@@ -214,42 +229,21 @@ class RestClientBase {
               code == '502' ||
               code == '503') {
             return ApiError(
-                errorCode: code,
-                message: LocaleKeys.error_message_default.tr());
-          }
-
-          String msg = "ERR$code".tr();
-
-          if (e?.response?.data != null && e?.response?.data is Map) {
-            try {
-              dynamic errorData = e.response.data;
-              code =
-                  (errorData['errorCode']?.toString() ?? code).replaceAll("-", "_");
-
-              msg = "ERR$code".tr();
-
-              if (msg.startsWith("ERR")) {
-                msg = errorData["message"];
-              }
-              //Nếu msg null or empty thì ném cái lỗi mặc định ra
-              if (msg == null || msg.isEmpty) {
-                msg = LocaleKeys.something_error.tr();
-              }
-            } catch (error) {
-              print(error);
-            } finally {
-              print(e?.response?.data.toString() ?? code);
-            }
+                code: code,
+                message: "Lỗi đường truyền, xin vui lòng thử lại sau ít phút!");
           }
 
           return ApiError(
-            errorCode: code,
-            message: msg,
+            code: '${e.error}',
+            message: '${e.message}',
           );
       }
     }
 
-    return ApiError();
+    return ApiError(
+      code: '${e.code}',
+      message: '${e.message}',
+    );
   }
 
   ApiResponse _mapResponse(dynamic response) {
