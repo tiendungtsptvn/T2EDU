@@ -86,7 +86,7 @@ class SessionInterceptor extends InterceptorsWrapper {
   Future onError(DioError err, ErrorInterceptorHandler handler) async {
     if (!kReleaseMode) {
       print('SessionInterceptor onError: ');
-      print(err.response.data);
+      print(err.message);
     }
     return handler.next(err);
   }
