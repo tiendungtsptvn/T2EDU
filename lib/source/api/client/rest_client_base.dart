@@ -80,7 +80,7 @@ class RestClientBase {
         Options options,
         CancelToken cancelToken,
         ProgressCallback onSendProgress,
-        List<String> string,
+        List<String> mapDataError,
         ProgressCallback onReceiveProgress,
       }) async {
     try {
@@ -98,7 +98,7 @@ class RestClientBase {
 
       if (res.code != '0' && res.data != null) {
         String messageData = ":";
-        string.forEach((element) {
+        mapDataError.forEach((element) {
           if (res.data[element] != null) {
             messageData += " ${res.data[element]}";
           }
