@@ -6,7 +6,6 @@ import 'package:dio_cookie_manager/dio_cookie_manager.dart';
 import 'package:easy_localization/easy_localization.dart';
 
 import 'package:dio/dio.dart';
-import 'package:t4edu_source_source/global/app_toast.dart';
 import 'package:t4edu_source_source/source/api/api_error.dart';
 import 'package:t4edu_source_source/source/api/api_response.dart';
 import 'package:t4edu_source_source/translations/locale_keys.g.dart';
@@ -19,10 +18,10 @@ class RestClientBase {
       'application/json;charset=UTF-8';
 
   RestClientBase(
-    String baseUrl,
-    List<Interceptor> interceptors, {
-    Duration timeout = defaultTimeout,
-  }) {
+      String baseUrl,
+      List<Interceptor> interceptors, {
+        Duration timeout = defaultTimeout,
+      }) {
     final BaseOptions options = BaseOptions(
       baseUrl: baseUrl,
       connectTimeout: timeout.inMilliseconds,
@@ -48,14 +47,14 @@ class RestClientBase {
   Dio _dio;
 
   Future<dynamic> get(
-    String path, {
-    Map<String, dynamic> queryParameters,
-    Options options,
-    CancelToken cancelToken,
-    ProgressCallback onReceiveProgress,
-  }) async {
+      String path, {
+        Map<String, dynamic> queryParameters,
+        Options options,
+        CancelToken cancelToken,
+        ProgressCallback onReceiveProgress,
+      }) async {
     try {
-      final  Response<dynamic> response = await _dio.get<dynamic>(
+      final Response<dynamic> response = await _dio.get<dynamic>(
         path,
         queryParameters: queryParameters,
         options: options,
@@ -65,7 +64,7 @@ class RestClientBase {
 
       ApiResponse res = _mapResponse(response.data);
 
-      if(res.code != '0'){
+      if (res.code != '0') {
         throw response;
       }
       return res.data;
@@ -75,14 +74,15 @@ class RestClientBase {
   }
 
   Future<dynamic> post(
-    String path, {
-    dynamic data,
-    Map<String, dynamic> queryParameters,
-    Options options,
-    CancelToken cancelToken,
-    ProgressCallback onSendProgress,
-    ProgressCallback onReceiveProgress,
-  }) async {
+      String path, {
+        dynamic data,
+        Map<String, dynamic> queryParameters,
+        Options options,
+        CancelToken cancelToken,
+        ProgressCallback onSendProgress,
+        List<String> string,
+        ProgressCallback onReceiveProgress,
+      }) async {
     try {
       final Response<dynamic> response = await _dio.post<dynamic>(
         path,
@@ -96,7 +96,17 @@ class RestClientBase {
 
       ApiResponse res = _mapResponse(response.data);
 
-      if(res.code != '0'){
+      if (res.code != '0' && res.data != null) {
+        String messageData = ":";
+        string.forEach((element) {
+          if (res.data[element] != null) {
+            messageData += " ${res.data[element]}";
+          }
+        });
+        res.data = messageData;
+        throw res;
+      }
+      if (res.code != '0' && res.data == null) {
         throw res;
       }
       return res.data;
@@ -107,11 +117,11 @@ class RestClientBase {
 
   Future<dynamic> patch(String path,
       {dynamic data,
-      Map<String, dynamic> queryParameters,
-      Options options,
-      CancelToken cancelToken,
-      ProgressCallback onSendProgress,
-      ProgressCallback onReceiveProgress}) async {
+        Map<String, dynamic> queryParameters,
+        Options options,
+        CancelToken cancelToken,
+        ProgressCallback onSendProgress,
+        ProgressCallback onReceiveProgress}) async {
     try {
       final Response<dynamic> response = await _dio.patch<dynamic>(
         path,
@@ -125,7 +135,7 @@ class RestClientBase {
 
       ApiResponse res = _mapResponse(response.data);
 
-      if(res.code != '0'){
+      if (res.code != '0') {
         throw response;
       }
       return res.data;
@@ -154,7 +164,7 @@ class RestClientBase {
 
       ApiResponse res = _mapResponse(response.data);
 
-      if(res.code != '0'){
+      if (res.code != '0') {
         throw response;
       }
       return res.data;
@@ -165,9 +175,9 @@ class RestClientBase {
 
   Future<dynamic> delete(String path,
       {dynamic data,
-      Map<String, dynamic> queryParameters,
-      Options options,
-      CancelToken cancelToken}) async {
+        Map<String, dynamic> queryParameters,
+        Options options,
+        CancelToken cancelToken}) async {
     try {
       final Response<dynamic> response = await _dio.delete<dynamic>(path,
           data: data,
@@ -177,7 +187,7 @@ class RestClientBase {
 
       ApiResponse res = _mapResponse(response.data);
 
-      if(res.code != '0'){
+      if (res.code != '0') {
         throw response;
       }
       return res.data;
@@ -197,12 +207,12 @@ class RestClientBase {
           return ApiError(
               code: 'SEND_TIMEOUT',
               message:
-                  '${LocaleKeys.error_message_default.tr()} (send timeout)');
+              '${LocaleKeys.error_message_default.tr()} (send timeout)');
         case DioErrorType.receiveTimeout:
           return ApiError(
               code: 'RECEIVE_TIMEOUT',
               message:
-                  '${LocaleKeys.error_message_default.tr()} (receive timeout)');
+              '${LocaleKeys.error_message_default.tr()} (receive timeout)');
         case DioErrorType.cancel:
           return ApiError(
               code: 'CANCEL',
@@ -221,7 +231,7 @@ class RestClientBase {
           );
         case DioErrorType.response:
           String code =
-              ((e?.response?.statusCode.toString())).replaceAll("-", "_");
+          ((e?.response?.statusCode.toString())).replaceAll("-", "_");
 
           // Bắt riêng lỗi 500 - Internal Server Error
           if (code == '500' ||
@@ -241,9 +251,7 @@ class RestClientBase {
     }
 
     return ApiError(
-      code: '${e.code}',
-      message: '${e.message}',
-    );
+        code: '${e.code}', message: '${e.message}', data: '${e.data}');
   }
 
   ApiResponse _mapResponse(dynamic response) {
@@ -254,3 +262,5 @@ class RestClientBase {
     return ApiResponse.fromJson(response);
   }
 }
+
+

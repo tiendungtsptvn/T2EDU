@@ -4,7 +4,7 @@ import 'package:t4edu_source_source/translations/locale_keys.g.dart';
 
 class Utils {
   static String getMessageError(dynamic error, {String mms = ""}) {
-    //errorCode ERR003, message = 'tai khoan sai'
+    /// errorCode ERR003, message = 'tai khoan sai'
     if (error is String) {
       return error + ' ' + mms;
     }
@@ -13,7 +13,7 @@ class Utils {
       if (error.message == null || error.message.isEmpty) {
         return LocaleKeys.an_error_occurred.tr() + mms;
       }
-      return (error.message ?? '') + ' ' + (mms ?? '');
+      return (error.message ?? '') + ' ' + (mms ?? '') + (error.data != "null" ? error.data : "");
     }
 
     return LocaleKeys.an_error_occurred.tr() + mms;
