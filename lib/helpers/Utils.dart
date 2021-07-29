@@ -13,7 +13,7 @@ class Utils {
       if (error.message == null || error.message.isEmpty) {
         return LocaleKeys.an_error_occurred.tr() + mms;
       }
-      return (error.message ?? '') + ' ' + (mms ?? '');
+      return (error.message ?? '') + ' ' + (mms ?? '') + (error.data != "null" ? error.data : "");
     }
 
     return LocaleKeys.an_error_occurred.tr() + mms;
