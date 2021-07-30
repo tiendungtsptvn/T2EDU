@@ -283,18 +283,18 @@ class _LoginPageState extends State<LoginPage> {
                               }
                               if (loginCase == LoginCase.HaveNoRole) {
                                 return _messageBox(
-                                    LocaleKeys.messBoxTitle1,
-                                    LocaleKeys.messBoxContent1,
-                                    LocaleKeys.messBoxTextButton1,
+                                    LocaleKeys.messBoxTitle1.tr(),
+                                    LocaleKeys.messBoxContent1.tr(),
+                                    LocaleKeys.messBoxTextButton1.tr(),
                                     AppRouter.login);
 
                                 ///Navigate to Choose Role Screean
                               }
                               if (loginCase == LoginCase.Unverified) {
                                 return _messageBox(
-                                    LocaleKeys.messBoxTitle2,
-                                    LocaleKeys.messBoxContent2,
-                                    LocaleKeys.messBoxTextButton2,
+                                    LocaleKeys.messBoxTitle2.tr(),
+                                    LocaleKeys.messBoxContent2.tr(),
+                                    LocaleKeys.messBoxTextButton2.tr(),
                                     AppRouter.login);
 
                                 ///Navigate to Verify Screen
