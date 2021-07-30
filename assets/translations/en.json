@@ -12,5 +12,11 @@
   "signup": "Sign up",
   "orLoginWith": "Or login with",
   "canNotBeEmpty": "This field can't be empty",
-  "passwordAtLeast": "Password contains at least 5 characters"
+  "passwordAtLeast": "Password contains at least 5 characters",
+  "messBoxTitle1": "Choose your role !",
+  "messBoxContent1": "Please choose your role to continue.",
+  "messBoxTextButton1": "Choose now",
+  "messBoxTitle2": "Unverified !",
+  "messBoxContent2": "Your account unverified. Please verify your account to continue.",
+  "messBoxTextButton2": "Verify now"
 }

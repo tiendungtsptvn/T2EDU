@@ -2,14 +2,18 @@ import 'package:get_it/get_it.dart';
 import 'package:rxdart/rxdart.dart';
 import 'package:t4edu_source_source/base/bloc_base.dart';
 import 'package:t4edu_source_source/data/repository/auth_repository.dart';
-import 'package:t4edu_source_source/domain/models/access_token.dart';
 import 'package:t4edu_source_source/global/app_toast.dart';
 import 'package:t4edu_source_source/helpers/Utils.dart';
+import 'package:t4edu_source_source/source/api/api_error.dart';
 import 'package:t4edu_source_source/translations/locale_keys.g.dart';
 import 'package:easy_localization/easy_localization.dart';
 
+enum LoginCase { Unverified, HaveRole, HaveNoRole }
+
 class LoginBloc extends BlocBase {
   final AuthRepositoryIml _apiAuth = GetIt.I<AuthRepositoryIml>();
+  static const String haveNoRole = "ROLE_CUSTOMER";
+
   LoginBloc() {
     _bind();
   }
@@ -38,10 +42,11 @@ class LoginBloc extends BlocBase {
   Sink<bool> get obscureTextValueSink => _obscureTextValue.sink;
   Stream<bool> get obscureTextValueStream => _obscureTextValue.stream;
 
-  final BehaviorSubject<bool> _progressIndicatorValue
-    = BehaviorSubject.seeded(false);
+  final BehaviorSubject<bool> _progressIndicatorValue =
+      BehaviorSubject.seeded(false);
   Sink<bool> get progressIndicatorValueSink => _progressIndicatorValue.sink;
-  Stream<bool> get progressIndicatorValueStream => _progressIndicatorValue.stream;
+  Stream<bool> get progressIndicatorValueStream =>
+      _progressIndicatorValue.stream;
 
   void updateStateButton() {
     if (_usernameValue.valueWrapper.toString() != "" &&
@@ -52,22 +57,31 @@ class LoginBloc extends BlocBase {
   }
 
   void updateStatePassword(bool current) {
-    if(!_obscureTextValue.isClosed) _obscureTextValue.add(!current);
+    if (!_obscureTextValue.isClosed) _obscureTextValue.add(!current);
   }
 
-  Future<void> userLogin() async {
-    if(!_progressIndicatorValue.isClosed) _progressIndicatorValue.add(true);
-    try {
-      Token token = await _apiAuth.userLogin(
-          _usernameValue.valueWrapper.value, _passwordValue.valueWrapper.value);
+  Future<LoginCase> userLogin() async {
+    if (!_progressIndicatorValue.isClosed) _progressIndicatorValue.add(true);
 
-      if (token != null) {
-        if(!_progressIndicatorValue.isClosed) _progressIndicatorValue.add(false);
+    try {
+      final dynamic response = await _apiAuth.userLogin(
+          _usernameValue.valueWrapper.value, _passwordValue.valueWrapper.value);
+      if (response['role'].toString() != haveNoRole) {
+        if (!_progressIndicatorValue.isClosed)
+          _progressIndicatorValue.add(false);
         AppToast.showSuccess(LocaleKeys.welcome.tr());
+        return LoginCase.HaveRole;
+      } else {
+        if (!_progressIndicatorValue.isClosed)
+          _progressIndicatorValue.add(false);
+        AppToast.showSuccess(LocaleKeys.welcome.tr());
+        return LoginCase.HaveNoRole;
       }
     } catch (e) {
-      if(!_progressIndicatorValue.isClosed) _progressIndicatorValue.add(false);
+      if (!_progressIndicatorValue.isClosed) _progressIndicatorValue.add(false);
       AppToast.showError(Utils.getMessageError(e));
+      if (e is ApiError && e.code == "7") return LoginCase.Unverified;
+      return null;
     }
   }
 
