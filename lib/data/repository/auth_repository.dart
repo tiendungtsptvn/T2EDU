@@ -7,6 +7,8 @@ import 'package:t4edu_source_source/source/api/client/rest/auth_client.dart';
 
 ///mình quy  ước case 1 là code  4, case 2  code là 7  case 4 code là 8 nha
 
+const String registerPath = '/auth/register';
+
 class AuthRepositoryIml extends AuthRepository {
   ClientAuth _clientAuth = GetIt.I<ClientAuth>();
   AuthRepositoryIml(this._clientAuth);
@@ -40,5 +42,30 @@ class AuthRepositoryIml extends AuthRepository {
     } catch (error) {
       throw error;
     }
+  }
+
+  @override
+  Future<Map> registerAccount(String emailOrPhone, String firstName, String lastName, String pass) async{
+    try {
+      final dynamic response =
+          await _clientAuth.post(registerPath, data: <String, dynamic>{
+        "emailOrPhoneNumber": emailOrPhone,
+        "firstName": firstName,
+        "lastName": lastName,
+        "password": pass,
+      }, mapDataError: [
+        "emailOrPhoneNumber",
+        "firstName",
+        "lastName",
+        "password"
+      ]);
+      if (response is Map) {
+        return response;
+      }
+      throw ApiError.fromResponse(response);
+    } catch (error) {
+      throw error;
+    }
+
   }
 }
