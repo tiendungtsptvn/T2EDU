@@ -33,8 +33,19 @@ class CodegenLoader extends AssetLoader{
   "messBoxTextButton1": "Choose now",
   "messBoxTitle2": "Unverified !",
   "messBoxContent2": "Your account unverified. Please verify your account to continue.",
-  "messBoxTextButton2": "Verify now"
-};
+  "messBoxTextButton2": "Verify now",
+    'newRegister':'Register here',
+    'name':'Full Name',
+    'emailOrPhoneNumber': 'Email or Phone number',
+    'register':'Register',
+    'firstName':'First Name',
+    'lastName':'Last Name',
+    'rePassword':'Confirm Password',
+    'success':'Success',
+    'acceptTheTermsMessage':'You have not accepted the terms!',
+    'emptyTheFieldMessage':'Please fill all fields',
+    'rePassMessage':'Your confirm password is wrong',
+  };
 static const Map<String,dynamic> vi = {
   "error_message_default": "Có lỗi kết nối đến máy chủ. Quý khách vui lòng thử lại",
   "something_error": "Đã có lỗi xảy ra. Vui lòng thử lại",
@@ -54,7 +65,17 @@ static const Map<String,dynamic> vi = {
   "messBoxTextButton1": "Chọn ngay",
   "messBoxTitle2": "Chưa xác thực !",
   "messBoxContent2": "Tài khoản của bạn chưa được xác thực, vui lòng xác thực để sử dụng dịch vụ.",
-  "messBoxTextButton2": "Xác thực ngay"
+  "messBoxTextButton2": "Xác thực ngay",
+  'newRegister':'Đăng kí mới',
+  'emailOrPhoneNumber': 'Email hoặc số điện thoại',
+  'register':'Đăng kí',
+  'firstName':'Họ',
+  'lastName':'Tên',
+  'rePassword':'Nhập lại mật khẩu',
+  'success':'Thành công',
+  'acceptTheTermsMessage':'Bạn chưa đông ý điều khoản sử dụng',
+  'emptyTheFieldMessage':'Hãy điền đầy đủ thông tin cá nhân',
+  'rePassMessage':'Mật khẩu điền lại không đúng',
 };
 static const Map<String, Map<String,dynamic>> mapLocales = {"en": en, "vi": vi};
 }

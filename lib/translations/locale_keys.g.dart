@@ -21,4 +21,17 @@ abstract class  LocaleKeys {
   static const messBoxContent2 = 'messBoxContent2';
   static const messBoxTextButton2 = 'messBoxTextButton2';
 
+  //register strings
+  static const newRegister = 'newRegister';
+  static const emailOrPhoneNumber = 'emailOrPhoneNumber';
+  static const register = 'register';
+  static const firstName = 'firstName';
+  static const lastName = 'lastName';
+  static const rePassword = 'rePassword';
+  static const uncheckBoxMessage ='uncheckBoxMessage';
+  static const success = 'success';
+  static const acceptTheTermsMessage = 'acceptTheTermsMessage';
+  static const emptyTheFieldMessage = 'emptyTheFieldMessage';
+  static const rePassMessage = 'rePassMessage';
+
 }
