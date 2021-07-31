@@ -27,7 +27,13 @@ class CodegenLoader extends AssetLoader{
   "signup": "Sign up",
   "orLoginWith": "Or login with",
   "canNotBeEmpty": "This field can't be empty",
-  "passwordAtLeast": "Password contains at least 5 characters"
+  "passwordAtLeast": "Password contains at least 5 characters",
+  "messBoxTitle1": "Choose your role !",
+  "messBoxContent1": "Please choose your role to continue.",
+  "messBoxTextButton1": "Choose now",
+  "messBoxTitle2": "Unverified !",
+  "messBoxContent2": "Your account unverified. Please verify your account to continue.",
+  "messBoxTextButton2": "Verify now"
 };
 static const Map<String,dynamic> vi = {
   "error_message_default": "Có lỗi kết nối đến máy chủ. Quý khách vui lòng thử lại",
@@ -42,7 +48,13 @@ static const Map<String,dynamic> vi = {
   "signup": "Đăng ký mới",
   "orLoginWith": "Hoặc đăng nhập với",
   "canNotBeEmpty": "Không được bỏ trống",
-  "passwordAtLeast": "Mật khẩu chứa ít nhất 5 ký tự"
+  "passwordAtLeast": "Mật khẩu chứa ít nhất 5 ký tự",
+  "messBoxTitle1": "Chọn chức danh !",
+  "messBoxContent1": "Vui Lòng chọn chức danh để tiếp tục trải nghiệm bạn nhé.",
+  "messBoxTextButton1": "Chọn ngay",
+  "messBoxTitle2": "Chưa xác thực !",
+  "messBoxContent2": "Tài khoản của bạn chưa được xác thực, vui lòng xác thực để sử dụng dịch vụ.",
+  "messBoxTextButton2": "Xác thực ngay"
 };
 static const Map<String, Map<String,dynamic>> mapLocales = {"en": en, "vi": vi};
 }

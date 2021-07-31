@@ -1,8 +1,10 @@
-import 'dart:io';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:get_it/get_it.dart';
 import 'package:t4edu_source_source/global/app_color.dart';
+import 'package:t4edu_source_source/global/app_navigation.dart';
+import 'package:t4edu_source_source/global/app_routes.dart';
 import 'package:t4edu_source_source/page/login/login_bloc.dart';
 import 'package:t4edu_source_source/translations/locale_keys.g.dart';
 
@@ -16,6 +18,7 @@ class _LoginPageState extends State<LoginPage> {
   TextEditingController _passwordController = TextEditingController();
   GlobalKey<FormState> _key = GlobalKey();
   LoginBloc _loginBloc;
+  LoginCase loginCase;
 
   @override
   void initState() {
@@ -38,7 +41,7 @@ class _LoginPageState extends State<LoginPage> {
       },
       child: Scaffold(
           resizeToAvoidBottomInset: true,
-          backgroundColor: AppColors.background,
+          backgroundColor: AppColors.priColor,
           appBar: AppBar(
             backgroundColor: Colors.transparent,
             leading: IconButton(
@@ -59,7 +62,15 @@ class _LoginPageState extends State<LoginPage> {
                     topRight: Radius.circular(10))),
             child: Padding(
               padding: EdgeInsets.only(top: 24, left: 24, right: 24, bottom: 0),
-              child: _buildBody(),
+              child: StreamBuilder<bool>(
+                stream: _loginBloc.progressIndicatorValueStream,
+                builder: (context, snapshot) {
+                  if (snapshot.data == null) return Container();
+                  return snapshot.data
+                      ? Center(child: CircularProgressIndicator())
+                      : _buildBody();
+                },
+              ),
             ),
           )),
     );
@@ -71,7 +82,7 @@ class _LoginPageState extends State<LoginPage> {
       child: ListView(
         children: [
           SizedBox(height: 5),
-          screenName(),
+          _screenName(),
           SizedBox(height: 3),
           _welcome(),
           SizedBox(height: 90),
@@ -90,7 +101,7 @@ class _LoginPageState extends State<LoginPage> {
     );
   }
 
-  Widget screenName() {
+  Widget _screenName() {
     return Text(
       LocaleKeys.login.tr(),
       style: TextStyle(
@@ -139,7 +150,6 @@ class _LoginPageState extends State<LoginPage> {
       ),
     );
   }
-
 
   Widget _textFieldPassword() {
     return Padding(
@@ -266,9 +276,30 @@ class _LoginPageState extends State<LoginPage> {
                   return snapshot.data
                       ? InkWell(
                           onTap: () async {
-                            await _loginBloc.userLogin();
+                            loginCase = await _loginBloc.userLogin();
+                            if (loginCase != null) {
+                              if (loginCase == LoginCase.HaveRole) {
+                                ///Navigate to Home Screen
+                              }
+                              if (loginCase == LoginCase.HaveNoRole) {
+                                return _messageBox(
+                                    LocaleKeys.messBoxTitle1.tr(),
+                                    LocaleKeys.messBoxContent1.tr(),
+                                    LocaleKeys.messBoxTextButton1.tr(),
+                                    AppRouter.login);
 
-                            /// Navigate
+                                ///Navigate to Choose Role Screean
+                              }
+                              if (loginCase == LoginCase.Unverified) {
+                                return _messageBox(
+                                    LocaleKeys.messBoxTitle2.tr(),
+                                    LocaleKeys.messBoxContent2.tr(),
+                                    LocaleKeys.messBoxTextButton2.tr(),
+                                    AppRouter.login);
+
+                                ///Navigate to Verify Screen
+                              }
+                            }
                           },
                           child: Container(
                             decoration: BoxDecoration(
@@ -288,7 +319,7 @@ class _LoginPageState extends State<LoginPage> {
                       : Container(
                           decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(5),
-                              color: AppColors.lightGrey),
+                              color: AppColors.secColor),
                           height: 50,
                           width: 140,
                           child: Center(
@@ -380,6 +411,34 @@ class _LoginPageState extends State<LoginPage> {
           )
         ],
       ),
+    );
+  }
+
+  Future<void> _messageBox(
+      String title, String message, String textButton, String routeName) async {
+    return showDialog<void>(
+      context: context,
+      barrierDismissible: false, // user must tap button!
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text(title),
+          content: SingleChildScrollView(
+            child: ListBody(
+              children: <Widget>[
+                Text(message),
+              ],
+            ),
+          ),
+          actions: <Widget>[
+            TextButton(
+              child: Text(textButton),
+              onPressed: () {
+                GetIt.I<Navigation>().pushNamed(routeName);
+              },
+            ),
+          ],
+        );
+      },
     );
   }
 }

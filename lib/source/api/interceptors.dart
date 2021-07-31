@@ -98,7 +98,7 @@ class RefreshTokenInterceptor extends Interceptor {
   final Dio dio;
 
   Future<AccessTokens> refreshToken() async {
-    String path = "https://bu.thieuu.me/api/v1/auth/refresh";
+    String path = "http://35.240.198.195:8080/api/author/auth/refresh-token";
     var response = await Dio().post(path, data: <String, dynamic>{
       'refreshToken': Session.instance().refreshToken
     });
@@ -113,8 +113,8 @@ class RefreshTokenInterceptor extends Interceptor {
       }
       return accessToken;
     }
-
     AppToast.showError("Đã xảy ra lỗi! Quý khách vui lòng thử lại sau");
+    return null;
   }
 
   @override
