@@ -14,5 +14,11 @@ abstract class  LocaleKeys {
   static const orLoginWith = 'orLoginWith';
   static const canNotBeEmpty = 'canNotBeEmpty';
   static const passwordAtLeast = 'passwordAtLeast';
+  static const messBoxTitle1 = 'messBoxTitle1';
+  static const messBoxContent1 = 'messBoxContent1';
+  static const messBoxTextButton1 = 'messBoxTextButton1';
+  static const messBoxTitle2 = 'messBoxTitle2';
+  static const messBoxContent2 = 'messBoxContent2';
+  static const messBoxTextButton2 = 'messBoxTextButton2';
 
 }
