@@ -4,6 +4,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:t4edu_source_source/global/app_color.dart';
 import 'package:t4edu_source_source/global/app_demension.dart';
+import 'package:t4edu_source_source/page/otp%20register/otp_register_page.dart';
 import 'package:t4edu_source_source/page/register/register_bloc.dart';
 import 'package:t4edu_source_source/translations/locale_keys.g.dart';
 import 'package:easy_localization/easy_localization.dart';
@@ -250,10 +251,18 @@ class _RegisterPageState extends State<RegisterPage> {
                 }
                 return ElevatedButton(
                   onPressed: snapshot.data ? () async {
-                    String response = await registerBloc.registerAccount();
-                    if(response!=null) {
-                      ///Navigte to OTP code confirm
-                    }
+                    // String response = await registerBloc.registerAccount();
+                    // if(response!=null) {
+                    //   ///Navigte to OTP code confirm
+                    //   Navigator.push(
+                    //     context,
+                    //     MaterialPageRoute(builder: (context) => OTPRegisterPage()),
+                    //   );
+                    // }
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => OTPRegisterPage()),
+                    );
                   } : () {},
                   style: ElevatedButton.styleFrom(
                     primary:
