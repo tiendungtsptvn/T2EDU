@@ -256,6 +256,7 @@ class _LoginPageState extends State<LoginPage> {
             style: TextStyle(color: AppColors.secColor, fontSize: 12),
           ),
           onTap: () {
+            GetIt.I<Navigation>().pushNamed(AppRouter.forgotPassword);
             /// Navigate to ForgotPasswordScreen
           },
         ));

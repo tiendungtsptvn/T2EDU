@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:t4edu_source_source/page/forgot_password/forgot_password.dart';
 import 'package:t4edu_source_source/page/login/login.dart';
 import 'package:t4edu_source_source/page/main/main_page.dart';
 import 'package:t4edu_source_source/page/splash/splash.dart';
@@ -27,6 +28,8 @@ class AppRouter {
         return MainPage();
       case login:
         return LoginPage();
+      case forgotPassword:
+        return ForgotPasswordPage();
 
       default:
         throw 'Route $routeName is not defined';
@@ -36,4 +39,5 @@ class AppRouter {
   static const String mainPage = '/';
   static const String splash = '/splash';
   static const String login = '/login';
+  static const String forgotPassword = '/forgotPassword';
 }
