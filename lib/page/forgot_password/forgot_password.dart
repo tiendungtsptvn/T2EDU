@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:get_it/get_it.dart';
 import 'package:t4edu_source_source/global/app_color.dart';
+import 'package:t4edu_source_source/global/app_navigation.dart';
+import 'package:t4edu_source_source/global/app_routes.dart';
 import 'package:t4edu_source_source/page/forgot_password/forgot_password_bloc.dart';
 
 class ForgotPasswordPage extends StatefulWidget {
@@ -15,11 +18,13 @@ class _ForgotPasswordState extends State<ForgotPasswordPage> {
   @override
   void initState() {
     super.initState();
+    _forgotPasswordBloc = ForgotPasswordBloc();
   }
 
   @override
   void dispose() {
     super.dispose();
+    _forgotPasswordBloc.dispose();
   }
 
   @override
@@ -118,10 +123,14 @@ class _ForgotPasswordState extends State<ForgotPasswordPage> {
             hintStyle: TextStyle(fontSize: 12),
             contentPadding: EdgeInsets.all(15),
             counterText: ""),
-        onChanged: (value) {},
+        onChanged: (value) {
+          _forgotPasswordBloc.usernameValueSink.add(value);
+          _forgotPasswordBloc.updateStateButton();
+        },
         validator: (_) {
           if (_usernameController.text.length == 0) {
-            return "Địa chỉ Email hoặc số điện thoại không được phép bỏ trống";
+            _forgotPasswordBloc.enableButtonFindSink.add(false);
+            return "Không được phép bỏ trống";
           } else
             return null;
         },
@@ -132,46 +141,61 @@ class _ForgotPasswordState extends State<ForgotPasswordPage> {
   }
 
   Widget _buttonFind() {
-    return Container(
-      child: StreamBuilder<bool>(
-          stream: _forgotPasswordBloc.enableButtonLoginStream,
-          builder: (context, snapshot) {
-            if (snapshot.data == null) {
-              return Container();
-            }
-            return snapshot.data
-                ? InkWell(
-                    onTap: () async {
-                    },
-                    child: Container(
-                      decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(5),
-                          color: AppColors.secColor),
-                      height: 50,
-                      width: 140,
-                      child: Center(
-                        child: Text(
-                          "Tìm kiếm",
-                          style:
-                              TextStyle(color: AppColors.white, fontSize: 14),
-                        ),
-                      ),
-                    ),
-                  )
-                : Container(
-                    decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(5),
-                        color: AppColors.secColor),
-                    height: 50,
-                    width: 140,
-                    child: Center(
-                      child: Text(
-                        "Tìm kiếm",
-                        style: TextStyle(color: AppColors.white, fontSize: 14),
-                      ),
-                    ),
-                  );
-          }),
+    return Row(
+      children: [
+        Expanded(
+          flex: 1,
+          child: Container(
+            child: StreamBuilder<bool>(
+                stream: _forgotPasswordBloc.enableButtonFindStream,
+                builder: (context, snapshot) {
+                  if (snapshot.data == null) {
+                    return Container();
+                  }
+                  return snapshot.data
+                      ? InkWell(
+                          onTap: () async {
+                            bool success = await _forgotPasswordBloc
+                                .userForgotPassword();
+                            if(success){
+                              GetIt.I<Navigation>().pushNamed(AppRouter.confirmOTPForPass);
+                            }
+                          },
+                          child: Container(
+                            decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(5),
+                                color: AppColors.secColor),
+                            height: 50,
+                            width: 140,
+                            child: Center(
+                              child: Text(
+                                "Tìm kiếm",
+                                style: TextStyle(
+                                    color: AppColors.white, fontSize: 14),
+                              ),
+                            ),
+                          ),
+                        )
+                      : Container(
+                          decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(5),
+                              color: AppColors.secColor),
+                          height: 50,
+                          width: 140,
+                          child: Center(
+                            child: Text(
+                              "Tìm kiếm",
+                              style: TextStyle(
+                                  color: AppColors.white, fontSize: 14),
+                            ),
+                          ),
+                        );
+                }),
+          ),
+        ),
+        SizedBox(width: 20),
+        Expanded(flex: 1, child: Container())
+      ],
     );
   }
 }

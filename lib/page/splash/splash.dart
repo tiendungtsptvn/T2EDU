@@ -13,7 +13,7 @@ class _SplashScreenState extends State<SplashScreen> with TickerProviderStateMix
   @override
   void initState() {
     new Future.delayed(const Duration(seconds: 2), () {
-      Navigator.pushNamed(context, AppRouter.login);
+      Navigator.pushNamed(context, AppRouter.confirmOTPForPass);
     });
     super.initState();
   }
