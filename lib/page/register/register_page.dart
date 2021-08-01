@@ -17,6 +17,8 @@ class RegisterPage extends StatefulWidget {
 class _RegisterPageState extends State<RegisterPage> {
   GlobalKey<FormState> _key = GlobalKey();
   RegisterBloc registerBloc = new RegisterBloc();
+  TextEditingController emailOrPhoneNumberController =
+      new TextEditingController();
 
   @override
   void initState() {
@@ -25,8 +27,8 @@ class _RegisterPageState extends State<RegisterPage> {
 
   @override
   void dispose() {
-    super.dispose();
     registerBloc.dispose();
+    super.dispose();
   }
 
   @override
@@ -43,7 +45,7 @@ class _RegisterPageState extends State<RegisterPage> {
           leading: IconButton(
             icon: Icon(Icons.arrow_back_ios),
             onPressed: () {
-              Navigator.pop(context);
+              Navigator.of(context,rootNavigator: true).pop();
               registerBloc.dispose();
             },
           ),
@@ -93,6 +95,7 @@ class _RegisterPageState extends State<RegisterPage> {
           ),
           SizedBox(height: 90),
           TextField(
+            controller: emailOrPhoneNumberController,
             keyboardType: getTextInput(),
             decoration: buildInputDecoration(
                 Icons.email, LocaleKeys.emailOrPhoneNumber.tr()),
@@ -250,23 +253,37 @@ class _RegisterPageState extends State<RegisterPage> {
                   return Container();
                 }
                 return ElevatedButton(
-                  onPressed: snapshot.data ? () async {
-                    // String response = await registerBloc.registerAccount();
-                    // if(response!=null) {
-                    //   ///Navigte to OTP code confirm
-                    //   Navigator.push(
-                    //     context,
-                    //     MaterialPageRoute(builder: (context) => OTPRegisterPage()),
-                    //   );
-                    // }
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (context) => OTPRegisterPage()),
-                    );
-                  } : () {},
+                  onPressed: snapshot.data
+                      ? () async {
+                          // String response =
+                          //     await registerBloc.registerAccount();
+                          // if (response != null) {
+                          //   ///Navigte to OTP code confirm
+                          //   Navigator.pushReplacement(
+                          //     context,
+                          //     MaterialPageRoute(
+                          //         builder: (context) => OTPRegisterPage(
+                          //               emailOrPhoneNumber:
+                          //                   emailOrPhoneNumberController.text
+                          //                       .toString(),
+                          //             )),
+                          //   );
+                          // }
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => OTPRegisterPage(
+                                      emailOrPhoneNumber:
+                                          emailOrPhoneNumberController.text
+                                              .toString(),
+                                    )),
+                          );
+                        }
+                      : () {},
                   style: ElevatedButton.styleFrom(
-                    primary:
-                    snapshot.data ? AppColors.secColor : AppColors.light_grey,
+                    primary: snapshot.data
+                        ? AppColors.secColor
+                        : AppColors.light_grey,
                   ),
                   child: Text(
                     LocaleKeys.register.tr(),
@@ -301,5 +318,4 @@ class _RegisterPageState extends State<RegisterPage> {
         hintText: hint,
         hintStyle: TextStyle(fontSize: 13));
   }
-
 }
