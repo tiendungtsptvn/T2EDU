@@ -5,6 +5,7 @@ import 'package:t4edu_source_source/data/repository/auth_repository.dart';
 import 'package:t4edu_source_source/global/app_toast.dart';
 import 'package:t4edu_source_source/helpers/Utils.dart';
 import 'package:t4edu_source_source/translations/locale_keys.g.dart';
+import 'package:easy_localization/easy_localization.dart';
 
 class OTPRegisterBloc extends BlocBase {
   final AuthRepositoryIml _apiAuth = GetIt.I<AuthRepositoryIml>();
@@ -25,13 +26,17 @@ class OTPRegisterBloc extends BlocBase {
   Sink<bool> get isCountingToResendSink => isCountingToResend.sink;
   Stream<bool> get isCountingTtoResendStream => isCountingToResend.stream;
 
+  final BehaviorSubject<String> pin1Value = BehaviorSubject();
+  Sink<String> get pin1ValueSink => pin1Value.sink;
+
   Future<bool> resendOTP(String emailOrPhone)async{
     try {
       await _apiAuth.resendOTP(emailOrPhone);
-      AppToast.showSuccess(LocaleKeys.success);
+      AppToast.showSuccess(LocaleKeys.resendOtpSuccessMessage.tr());
+      return true;
     } catch (e) {
-      print(Utils.getMessageError(e));
       AppToast.showError(Utils.getMessageError(e));
+      return false;
     }
   }
 
@@ -39,6 +44,7 @@ class OTPRegisterBloc extends BlocBase {
     try {
        await _apiAuth.otpRegisterConfirm(
           emailOrPhone, code);
+       AppToast.showSuccess(LocaleKeys.success.tr());
        return true;
     } catch (e) {
       print(Utils.getMessageError(e));
@@ -50,5 +56,6 @@ class OTPRegisterBloc extends BlocBase {
   @override
   void dispose() {
     isCountingToResend.close();
+    pin1Value.close();
   }
 }

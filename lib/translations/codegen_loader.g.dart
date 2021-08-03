@@ -53,7 +53,8 @@ class CodegenLoader extends AssetLoader {
     'otpSubtitleHeader': 'We have sent OTP code to email or phone number',
     'haveNotReceiveCodeYet': 'Have you not received the code yet?',
     'resend': 'Resend',
-    'confirm': 'Confirm'
+    'confirm': 'Confirm',
+    'resendOtpSuccessMessage':'We have resent OTP code',
   };
   static const Map<String, dynamic> vi = {
     "error_message_default":
@@ -95,6 +96,7 @@ class CodegenLoader extends AssetLoader {
     'haveNotReceiveCodeYet': 'Chưa nhận được mã xác thực?',
     'resend': 'Gửi lại',
     'confirm': 'Xác minh',
+    'resendOtpSuccessMessage':'Đã gửi lại OTP đến email hoặc số điện thoại của bạn',
   };
   static const Map<String, Map<String, dynamic>> mapLocales = {
     "en": en,

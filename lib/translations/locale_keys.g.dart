@@ -40,4 +40,5 @@ abstract class  LocaleKeys {
   static const haveNotReceiveCodeYet = 'haveNotReceiveCodeYet';
   static const resend = 'resend';
   static const confirm = 'confirm';
+  static const resendOtpSuccessMessage = 'resendOtpSuccessMessage';
 }

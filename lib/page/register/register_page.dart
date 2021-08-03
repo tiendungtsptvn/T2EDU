@@ -258,7 +258,7 @@ class _RegisterPageState extends State<RegisterPage> {
                           // String response =
                           //     await registerBloc.registerAccount();
                           // if (response != null) {
-                          //   ///Navigte to OTP code confirm
+                          //   ///Navigate to OTP code confirm
                           //   Navigator.pushReplacement(
                           //     context,
                           //     MaterialPageRoute(

@@ -74,27 +74,21 @@ class AuthRepositoryIml extends AuthRepository {
 
   //OTp register confirm from branch develop 31/07/2021
   @override
-  Future<Map> resendOTP(String emailOrPhone) async {
+  Future resendOTP(String emailOrPhone) async {
     try {
-      final dynamic response =
-          await _clientAuth.post(resendOTPPath, data: <String, dynamic>{
+      await _clientAuth.post(resendOTPPath, data: <String, dynamic>{
         "emailOrPhoneNumber": emailOrPhone,
       }, mapDataError: [
         "emailOrPhoneNumber",
       ]);
-      if (response is Map) {
-        return response;
-      }
-      throw ApiError.fromResponse(response);
     } catch (error) {
       throw error;
     }
   }
 
   @override
-  Future<Map> otpRegisterConfirm(String emailOrPhone, String code) async {
+  Future otpRegisterConfirm(String emailOrPhone, String code) async {
     try {
-      final dynamic response =
           await _clientAuth.post(otpConfirmedPath, data: <String, dynamic>{
         "code": code,
         "emailOrPhoneNumber": emailOrPhone,
@@ -102,10 +96,6 @@ class AuthRepositoryIml extends AuthRepository {
         "code",
         "emailOrPhoneNumber"
       ]);
-      if (response is Map) {
-        return response;
-      }
-      throw ApiError.fromResponse(response);
     } catch (error) {
       throw error;
     }
