@@ -26,9 +26,6 @@ class OTPRegisterBloc extends BlocBase {
   Sink<bool> get isCountingToResendSink => isCountingToResend.sink;
   Stream<bool> get isCountingTtoResendStream => isCountingToResend.stream;
 
-  final BehaviorSubject<String> pin1Value = BehaviorSubject();
-  Sink<String> get pin1ValueSink => pin1Value.sink;
-
   Future<bool> resendOTP(String emailOrPhone)async{
     try {
       await _apiAuth.resendOTP(emailOrPhone);
@@ -56,6 +53,5 @@ class OTPRegisterBloc extends BlocBase {
   @override
   void dispose() {
     isCountingToResend.close();
-    pin1Value.close();
   }
 }

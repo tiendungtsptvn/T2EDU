@@ -2,8 +2,10 @@ import 'dart:io';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:get_it/get_it.dart';
 import 'package:t4edu_source_source/global/app_color.dart';
 import 'package:t4edu_source_source/global/app_demension.dart';
+import 'package:t4edu_source_source/global/app_navigation.dart';
 import 'package:t4edu_source_source/page/otp%20register/otp_register_page.dart';
 import 'package:t4edu_source_source/page/register/register_bloc.dart';
 import 'package:t4edu_source_source/translations/locale_keys.g.dart';
@@ -45,7 +47,7 @@ class _RegisterPageState extends State<RegisterPage> {
           leading: IconButton(
             icon: Icon(Icons.arrow_back_ios),
             onPressed: () {
-              Navigator.of(context,rootNavigator: true).pop();
+              Navigator.of(context, rootNavigator: true).pop();
               registerBloc.dispose();
             },
           ),
@@ -255,29 +257,15 @@ class _RegisterPageState extends State<RegisterPage> {
                 return ElevatedButton(
                   onPressed: snapshot.data
                       ? () async {
-                          // String response =
-                          //     await registerBloc.registerAccount();
-                          // if (response != null) {
-                          //   ///Navigate to OTP code confirm
-                          //   Navigator.pushReplacement(
-                          //     context,
-                          //     MaterialPageRoute(
-                          //         builder: (context) => OTPRegisterPage(
-                          //               emailOrPhoneNumber:
-                          //                   emailOrPhoneNumberController.text
-                          //                       .toString(),
-                          //             )),
-                          //   );
-                          // }
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => OTPRegisterPage(
-                                      emailOrPhoneNumber:
-                                          emailOrPhoneNumberController.text
-                                              .toString(),
-                                    )),
-                          );
+                          String response =
+                              await registerBloc.registerAccount();
+                          if (response != null) {
+                            ///Navigate to OTP code confirm
+                            GetIt.I<Navigation>().push(OTPRegisterPage(
+                              emailOrPhoneNumber:
+                                  emailOrPhoneNumberController.text.toString(),
+                            ));
+                          }
                         }
                       : () {},
                   style: ElevatedButton.styleFrom(

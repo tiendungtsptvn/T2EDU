@@ -1,8 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:rxdart/rxdart.dart';
 import 'package:t4edu_source_source/global/app_color.dart';
 import 'package:t4edu_source_source/global/app_demension.dart';
+import 'package:t4edu_source_source/global/app_toast.dart';
 import 'package:t4edu_source_source/page/otp%20register/otp_register_bloc.dart';
 import 'package:t4edu_source_source/translations/locale_keys.g.dart';
 import 'package:easy_localization/easy_localization.dart';
@@ -19,16 +19,39 @@ class OTPRegisterPage extends StatefulWidget {
 class _OTPRegisterPageState extends State<OTPRegisterPage> {
   OTPRegisterBloc otpRegisterBloc = new OTPRegisterBloc();
   GlobalKey _key = new GlobalKey();
-  TextEditingController codeController = new TextEditingController();
+  FocusNode pinFocusNode,
+      pin2FocusNode,
+      pin3FocusNode,
+      pin4FocusNode,
+      pin5FocusNode,
+      pin6FocusNode;
+  TextEditingController pinController = TextEditingController();
+  TextEditingController pin2Controller = TextEditingController();
+  TextEditingController pin3Controller = TextEditingController();
+  TextEditingController pin4Controller = TextEditingController();
+  TextEditingController pin5Controller = TextEditingController();
+  TextEditingController pin6Controller = TextEditingController();
 
   @override
   void initState() {
     super.initState();
+    pinFocusNode = FocusNode();
+    pin2FocusNode = FocusNode();
+    pin3FocusNode = FocusNode();
+    pin4FocusNode = FocusNode();
+    pin5FocusNode = FocusNode();
+    pin6FocusNode = FocusNode();
   }
 
   @override
   void dispose() {
     otpRegisterBloc.dispose();
+    pinFocusNode.dispose();
+    pin2FocusNode.dispose();
+    pin3FocusNode.dispose();
+    pin4FocusNode.dispose();
+    pin5FocusNode.dispose();
+    pin6FocusNode.dispose();
     super.dispose();
   }
 
@@ -88,8 +111,172 @@ class _OTPRegisterPageState extends State<OTPRegisterPage> {
             style: TextStyle(color: AppColors.thiColor, fontSize: 14),
           ),
           SizedBox(height: 90),
-          TextFormField(
-            controller: codeController,
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              SizedBox(
+                width: 45,
+                height: 45,
+                child: TextFormField(
+                  controller: pinController,
+                  autofocus: true,
+                  style: TextStyle(fontSize: 18),
+                  keyboardType: TextInputType.number,
+                  textAlign: TextAlign.center,
+                  decoration: InputDecoration(
+                    contentPadding: EdgeInsets.symmetric(vertical: 0),
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(5),
+                      borderSide: BorderSide(color: AppColors.priColor),
+                    ),
+                    enabledBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(5),
+                      borderSide: BorderSide(color: AppColors.priColor),
+                    ),
+                    counterText: "",
+                  ),
+                  onChanged: (value) {
+                    nextField(value, pin2FocusNode);
+                  },
+                  maxLength: 1,
+                ),
+              ),
+              SizedBox(
+                width: 45,
+                height: 45,
+                child: TextFormField(
+                  controller: pin2Controller,
+                  focusNode: pin2FocusNode,
+                  style: TextStyle(fontSize: 18),
+                  keyboardType: TextInputType.number,
+                  textAlign: TextAlign.center,
+                  decoration: InputDecoration(
+                    contentPadding: EdgeInsets.symmetric(vertical: 0),
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(5),
+                      borderSide: BorderSide(color: AppColors.black),
+                    ),
+                    enabledBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(5),
+                      borderSide: BorderSide(color: AppColors.priColor),
+                    ),
+                    counterText: "",
+                  ),
+                  onChanged: (value) {
+                    nextField(value, pin3FocusNode);
+                  },
+                  maxLength: 1,
+                ),
+              ),
+              SizedBox(
+                width: 45,
+                height: 45,
+                child: TextFormField(
+                  controller: pin3Controller,
+                  focusNode: pin3FocusNode,
+                  style: TextStyle(fontSize: 18),
+                  keyboardType: TextInputType.number,
+                  textAlign: TextAlign.center,
+                  decoration: InputDecoration(
+                    contentPadding: EdgeInsets.symmetric(vertical: 5),
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(5),
+                      borderSide: BorderSide(color: AppColors.priColor),
+                    ),
+                    enabledBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(5),
+                      borderSide: BorderSide(color: AppColors.priColor),
+                    ),
+                    counterText: "",
+                  ),
+                  onChanged: (value) {
+                    nextField(value, pin4FocusNode);
+                  },
+                  maxLength: 1,
+                ),
+              ),
+              SizedBox(
+                width: 45,
+                height: 45,
+                child: TextFormField(
+                  controller: pin4Controller,
+                  focusNode: pin4FocusNode,
+                  style: TextStyle(fontSize: 18),
+                  keyboardType: TextInputType.number,
+                  textAlign: TextAlign.center,
+                  decoration: InputDecoration(
+                    contentPadding: EdgeInsets.symmetric(vertical: 5),
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(5),
+                      borderSide: BorderSide(color: AppColors.black),
+                    ),
+                    enabledBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(5),
+                      borderSide: BorderSide(color: AppColors.priColor),
+                    ),
+                    counterText: "",
+                  ),
+                  onChanged: (value) {
+                    nextField(value, pin5FocusNode);
+                  },
+                  maxLength: 1,
+                ),
+              ),
+              SizedBox(
+                width: 45,
+                height: 45,
+                child: TextFormField(
+                  controller: pin5Controller,
+                  focusNode: pin5FocusNode,
+                  style: TextStyle(fontSize: 18),
+                  keyboardType: TextInputType.number,
+                  textAlign: TextAlign.center,
+                  decoration: InputDecoration(
+                    contentPadding: EdgeInsets.symmetric(vertical: 5),
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(5),
+                      borderSide: BorderSide(color: AppColors.black),
+                    ),
+                    enabledBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(5),
+                      borderSide: BorderSide(color: AppColors.priColor),
+                    ),
+                    counterText: "",
+                  ),
+                  onChanged: (value) {
+                    nextField(value, pin6FocusNode);
+                  },
+                  maxLength: 1,
+                ),
+              ),
+              SizedBox(
+                width: 45,
+                height: 45,
+                child: TextFormField(
+                  controller: pin6Controller,
+                  focusNode: pin6FocusNode,
+                  style: TextStyle(fontSize: 18),
+                  keyboardType: TextInputType.number,
+                  textAlign: TextAlign.center,
+                  decoration: InputDecoration(
+                    contentPadding: EdgeInsets.symmetric(vertical: 5),
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(5),
+                      borderSide: BorderSide(color: AppColors.black),
+                    ),
+                    enabledBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(5),
+                      borderSide: BorderSide(color: AppColors.priColor),
+                    ),
+                    counterText: "",
+                  ),
+                  onChanged: (value) {
+                    pin6FocusNode.unfocus();
+                  },
+                  maxLength: 1,
+                ),
+              ),
+            ],
           ),
           SizedBox(height: 20),
           SizedBox(
@@ -101,11 +288,27 @@ class _OTPRegisterPageState extends State<OTPRegisterPage> {
                 elevation: 5,
               ),
               onPressed: () async {
-                bool isSuccess = await otpRegisterBloc
-                    .registerConfirm(widget.emailOrPhoneNumber,codeController.text.toString());
-                print(isSuccess.toString());
-                if (isSuccess == true) {
-                  ///Navigate to choose role
+                if (pinController.text.toString() == '' ||
+                    pin2Controller.text.toString() == '' ||
+                    pin3Controller.text.toString() == '' ||
+                    pin4Controller.text.toString() == '' ||
+                    pin5Controller.text.toString() == '' ||
+                    pin6Controller.text.toString() == '') {
+                  AppToast.showError('Hãy nhập đủ');
+                } else {
+                  String code = pinController.text.toString() +
+                      pin2Controller.text.toString() +
+                      pin3Controller.text.toString() +
+                      pin4Controller.text.toString() +
+                      pin5Controller.text.toString() +
+                      pin6Controller.text.toString();
+                  print(code);
+                  bool isSuccess = await otpRegisterBloc.registerConfirm(
+                      widget.emailOrPhoneNumber, code);
+                  print(isSuccess.toString());
+                  if (isSuccess == true) {
+                    ///Navigate to choose role
+                  }
                 }
               },
               child: Text(
@@ -173,5 +376,11 @@ class _OTPRegisterPageState extends State<OTPRegisterPage> {
         ],
       ),
     );
+  }
+
+  void nextField(String value, FocusNode focusNode) {
+    if (value.length == 1) {
+      focusNode.requestFocus();
+    }
   }
 }
