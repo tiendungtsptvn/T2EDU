@@ -294,7 +294,7 @@ class _OTPRegisterPageState extends State<OTPRegisterPage> {
                     pin4Controller.text.toString() == '' ||
                     pin5Controller.text.toString() == '' ||
                     pin6Controller.text.toString() == '') {
-                  AppToast.showError('Hãy nhập đủ');
+                  AppToast.showError(LocaleKeys.canNotBeEmpty.tr());
                 } else {
                   String code = pinController.text.toString() +
                       pin2Controller.text.toString() +
