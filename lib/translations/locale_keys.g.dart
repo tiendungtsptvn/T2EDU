@@ -34,4 +34,11 @@ abstract class  LocaleKeys {
   static const emptyTheFieldMessage = 'emptyTheFieldMessage';
   static const rePassMessage = 'rePassMessage';
 
+  //otp register strings
+  static const otpConfirm = 'otpConfirm';
+  static const otpSubtitleHeader = 'otpSubtitleHeader';
+  static const haveNotReceiveCodeYet = 'haveNotReceiveCodeYet';
+  static const resend = 'resend';
+  static const confirm = 'confirm';
+  static const resendOtpSuccessMessage = 'resendOtpSuccessMessage';
 }

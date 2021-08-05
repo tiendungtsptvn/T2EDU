@@ -2,8 +2,11 @@ import 'dart:io';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:get_it/get_it.dart';
 import 'package:t4edu_source_source/global/app_color.dart';
 import 'package:t4edu_source_source/global/app_demension.dart';
+import 'package:t4edu_source_source/global/app_navigation.dart';
+import 'package:t4edu_source_source/page/otp%20register/otp_register_page.dart';
 import 'package:t4edu_source_source/page/register/register_bloc.dart';
 import 'package:t4edu_source_source/translations/locale_keys.g.dart';
 import 'package:easy_localization/easy_localization.dart';
@@ -16,6 +19,8 @@ class RegisterPage extends StatefulWidget {
 class _RegisterPageState extends State<RegisterPage> {
   GlobalKey<FormState> _key = GlobalKey();
   RegisterBloc registerBloc = new RegisterBloc();
+  TextEditingController emailOrPhoneNumberController =
+      new TextEditingController();
 
   @override
   void initState() {
@@ -24,8 +29,8 @@ class _RegisterPageState extends State<RegisterPage> {
 
   @override
   void dispose() {
-    super.dispose();
     registerBloc.dispose();
+    super.dispose();
   }
 
   @override
@@ -42,7 +47,7 @@ class _RegisterPageState extends State<RegisterPage> {
           leading: IconButton(
             icon: Icon(Icons.arrow_back_ios),
             onPressed: () {
-              Navigator.pop(context);
+              Navigator.of(context, rootNavigator: true).pop();
               registerBloc.dispose();
             },
           ),
@@ -92,6 +97,7 @@ class _RegisterPageState extends State<RegisterPage> {
           ),
           SizedBox(height: 90),
           TextField(
+            controller: emailOrPhoneNumberController,
             keyboardType: getTextInput(),
             decoration: buildInputDecoration(
                 Icons.email, LocaleKeys.emailOrPhoneNumber.tr()),
@@ -249,15 +255,23 @@ class _RegisterPageState extends State<RegisterPage> {
                   return Container();
                 }
                 return ElevatedButton(
-                  onPressed: snapshot.data ? () async {
-                    String response = await registerBloc.registerAccount();
-                    if(response!=null) {
-                      ///Navigte to OTP code confirm
-                    }
-                  } : () {},
+                  onPressed: snapshot.data
+                      ? () async {
+                          String response =
+                              await registerBloc.registerAccount();
+                          if (response != null) {
+                            ///Navigate to OTP code confirm
+                            GetIt.I<Navigation>().push(OTPRegisterPage(
+                              emailOrPhoneNumber:
+                                  emailOrPhoneNumberController.text.toString(),
+                            ));
+                          }
+                        }
+                      : () {},
                   style: ElevatedButton.styleFrom(
-                    primary:
-                    snapshot.data ? AppColors.secColor : AppColors.light_grey,
+                    primary: snapshot.data
+                        ? AppColors.secColor
+                        : AppColors.light_grey,
                   ),
                   child: Text(
                     LocaleKeys.register.tr(),
@@ -292,5 +306,4 @@ class _RegisterPageState extends State<RegisterPage> {
         hintText: hint,
         hintStyle: TextStyle(fontSize: 13));
   }
-
 }
