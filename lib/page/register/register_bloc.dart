@@ -5,6 +5,8 @@ import 'package:t4edu_source_source/data/repository/auth_repository.dart';
 import 'package:t4edu_source_source/global/app_toast.dart';
 import 'package:t4edu_source_source/helpers/Utils.dart';
 import 'package:t4edu_source_source/translations/locale_keys.g.dart';
+import 'package:easy_localization/easy_localization.dart';
+
 
 class RegisterBloc extends BlocBase {
   final AuthRepositoryIml _apiAuth = GetIt.I<AuthRepositoryIml>();
