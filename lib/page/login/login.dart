@@ -6,6 +6,7 @@ import 'package:t4edu_source_source/global/app_color.dart';
 import 'package:t4edu_source_source/global/app_navigation.dart';
 import 'package:t4edu_source_source/global/app_routes.dart';
 import 'package:t4edu_source_source/page/login/login_bloc.dart';
+import 'package:t4edu_source_source/page/register/register_page.dart';
 import 'package:t4edu_source_source/translations/locale_keys.g.dart';
 
 class LoginPage extends StatefulWidget {
@@ -347,6 +348,10 @@ class _LoginPageState extends State<LoginPage> {
                 ),
                 onPressed: () {
                   /// Navigate to SignUpScreen
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => RegisterPage()),
+                  );
                 },
               ),
             ),

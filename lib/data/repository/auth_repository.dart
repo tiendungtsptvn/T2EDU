@@ -7,11 +7,14 @@ import 'package:t4edu_source_source/source/api/client/rest/auth_client.dart';
 
 const String resendOTPPath = '/auth/forgot-password';
 
+const String registerPath = '/auth/register';
+const otpConfirmedPath = '/auth/confirm-code';
+
 class AuthRepositoryIml extends AuthRepository {
   ClientAuth _clientAuth = GetIt.I<ClientAuth>();
+
   AuthRepositoryIml(this._clientAuth);
 
-  ///login
   @override
   Future<Map> userLogin(String username, String password) async {
     try {
@@ -43,7 +46,82 @@ class AuthRepositoryIml extends AuthRepository {
     }
   }
 
-  ///forgot password
+  @override
+  Future<Map> registerAccount(String emailOrPhone, String firstName,
+      String lastName, String pass) async {
+    try {
+      final dynamic response =
+          await _clientAuth.post(registerPath, data: <String, dynamic>{
+        "emailOrPhoneNumber": emailOrPhone,
+        "firstName": firstName,
+        "lastName": lastName,
+        "password": pass,
+      }, mapDataError: [
+        "emailOrPhoneNumber",
+        "firstName",
+        "lastName",
+        "password"
+      ]);
+      if (response is Map) {
+        return response;
+      }
+      throw ApiError.fromResponse(response);
+    } catch (error) {
+      throw error;
+    }
+  }
+
+  //OTp register confirm from branch develop 31/07/2021
+  @override
+  Future resendOTP(String emailOrPhone) async {
+    try {
+      await _clientAuth.post(resendOTPPath, data: <String, dynamic>{
+        "emailOrPhoneNumber": emailOrPhone,
+      }, mapDataError: [
+        "emailOrPhoneNumber",
+      ]);
+    } catch (error) {
+      throw error;
+    }
+  }
+
+  @override
+  Future otpRegisterConfirm(String emailOrPhone, String code) async {
+    try {
+      await _clientAuth.post(otpConfirmedPath, data: <String, dynamic>{
+        "code": code,
+        "emailOrPhoneNumber": emailOrPhone,
+      }, mapDataError: [
+        "code",
+        "emailOrPhoneNumber"
+      ]);
+    } catch (error) {
+      throw error;
+    }
+  }
+
+  @override
+  Future<String> userConfirmCodeForPass(String code, String username) async {
+    try {
+      String path = "/auth/confirm-code-forgot-password";
+
+      final dynamic response =
+          await _clientAuth.post(path, data: <String, dynamic>{
+        'code': code,
+        'emailOrPhoneNumber': username,
+      }, mapDataError: [
+        'code',
+        "emailOrPhoneNumber",
+      ]);
+      if (response is String) {
+        return response;
+      }
+      throw ApiError.fromResponse(response);
+    } catch (error) {
+      throw error;
+    }
+  }
+
   @override
   Future<void> userForgotPassword(String username) async {
     try {
@@ -60,43 +138,8 @@ class AuthRepositoryIml extends AuthRepository {
   }
 
   @override
-  Future<String> userConfirmCodeForPass(String code, String username) async {
+  Future<void> userResetPassword(String password, String token) async {
     try {
-      String path = "/auth/confirm-code-forgot-password";
-
-      final dynamic response = await _clientAuth.post(path, data: <String, dynamic>{
-        'code': code,
-        'emailOrPhoneNumber': username,
-      }, mapDataError: [
-        'code',
-        "emailOrPhoneNumber",
-      ]);
-      if(response is String){
-        return response;
-      }
-      throw ApiError.fromResponse(response);
-    } catch (error) {
-      throw error;
-    }
-  }
-
-  @override
-  Future<void> resendOTP(String emailOrPhone) async{
-    try {
-      await _clientAuth.post(resendOTPPath, data: <String, dynamic>{
-        "emailOrPhoneNumber": emailOrPhone,
-      }, mapDataError: [
-        "emailOrPhoneNumber",
-      ]);
-    } catch (error) {
-      throw error;
-    }
-
-  }
-
-  @override
-  Future<void> userResetPassword(String password, String token) async{
-    try{
       String path = "/auth/reset-password";
 
       await _clientAuth.post(path, data: <String, dynamic>{
@@ -106,8 +149,7 @@ class AuthRepositoryIml extends AuthRepository {
         'password',
         "token",
       ]);
-    }
-    catch(error){
+    } catch (error) {
       throw error;
     }
   }
