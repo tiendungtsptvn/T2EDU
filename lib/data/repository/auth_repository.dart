@@ -5,10 +5,9 @@ import 'package:t4edu_source_source/instance/Session.dart';
 import 'package:t4edu_source_source/source/api/api_error.dart';
 import 'package:t4edu_source_source/source/api/client/rest/auth_client.dart';
 
-///mình quy  ước case 1 là code  4, case 2  code là 7  case 4 code là 8 nha
+const String resendOTPPath = '/auth/forgot-password';
 
 const String registerPath = '/auth/register';
-const String resendOTPPath = '/auth/forgot-password';
 const otpConfirmedPath = '/auth/confirm-code';
 
 class AuthRepositoryIml extends AuthRepository {
@@ -101,22 +100,6 @@ class AuthRepositoryIml extends AuthRepository {
     }
   }
 
-  ///forgot password
-  @override
-  Future<void> userForgotPassword(String username) async {
-    try {
-      String path = "/auth/forgot-password";
-
-      await _clientAuth.post(path, data: <String, dynamic>{
-        'emailOrPhoneNumber': username,
-      }, mapDataError: [
-        "emailOrPhoneNumber",
-      ]);
-    } catch (error) {
-      throw error;
-    }
-  }
-
   @override
   Future<String> userConfirmCodeForPass(String code, String username) async {
     try {
@@ -140,6 +123,21 @@ class AuthRepositoryIml extends AuthRepository {
   }
 
   @override
+  Future<void> userForgotPassword(String username) async {
+    try {
+      String path = "/auth/forgot-password";
+
+      await _clientAuth.post(path, data: <String, dynamic>{
+        'emailOrPhoneNumber': username,
+      }, mapDataError: [
+        "emailOrPhoneNumber",
+      ]);
+    } catch (error) {
+      throw error;
+    }
+  }
+
+  @override
   Future<void> userResetPassword(String password, String token) async {
     try {
       String path = "/auth/reset-password";
@@ -155,6 +153,4 @@ class AuthRepositoryIml extends AuthRepository {
       throw error;
     }
   }
-
-
 }
