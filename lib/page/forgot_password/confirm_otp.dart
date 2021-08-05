@@ -2,9 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
 import 'package:t4edu_source_source/global/app_color.dart';
 import 'package:t4edu_source_source/global/app_navigation.dart';
+import 'package:t4edu_source_source/global/app_routes.dart';
 import 'package:t4edu_source_source/page/forgot_password/confirm_otp_bloc.dart';
+import 'package:easy_localization/easy_localization.dart';
+import 'package:t4edu_source_source/translations/locale_keys.g.dart';
 
 class ConfirmOTPPage extends StatefulWidget {
+  final username;
+  ConfirmOTPPage({Key key, this.username}) : super(key: key);
   @override
   _ConfirmOTPState createState() => _ConfirmOTPState();
 }
@@ -24,6 +29,8 @@ class _ConfirmOTPState extends State<ConfirmOTPPage> {
   TextEditingController pin4Controller = TextEditingController();
   TextEditingController pin5Controller = TextEditingController();
   TextEditingController pin6Controller = TextEditingController();
+
+  ConfirmOTPPage get widget => super.widget;
 
   @override
   void initState() {
@@ -74,7 +81,15 @@ class _ConfirmOTPState extends State<ConfirmOTPPage> {
                   topLeft: Radius.circular(10), topRight: Radius.circular(10))),
           child: Padding(
             padding: EdgeInsets.only(top: 24, left: 24, right: 24, bottom: 0),
-            child: _buildBody(),
+            child: StreamBuilder<bool>(
+              stream: _confirmOTPBloc.progressIndicatorValueStream,
+              builder: (context, snapshot) {
+                if (snapshot.data == null) return Container();
+                return snapshot.data
+                    ? Center(child: CircularProgressIndicator())
+                    : _buildBody();
+              },
+            ),
           ),
         ));
   }
@@ -102,7 +117,7 @@ class _ConfirmOTPState extends State<ConfirmOTPPage> {
 
   Widget _screenName() {
     return Text(
-      "Xác thực OTP",
+      LocaleKeys.confirmOTPTitle.tr(),
       style: TextStyle(
           color: AppColors.secColor, fontSize: 20, fontWeight: FontWeight.bold),
     );
@@ -110,7 +125,7 @@ class _ConfirmOTPState extends State<ConfirmOTPPage> {
 
   Widget _welcome() {
     return Text(
-      "Hệ thống đã gửi cho bạn mã OTP!",
+      LocaleKeys.confirmOTPSubtitle.tr(),
       style: TextStyle(color: AppColors.thiColor, fontSize: 14),
     );
   }
@@ -293,11 +308,10 @@ class _ConfirmOTPState extends State<ConfirmOTPPage> {
                 counterText: "",
               ),
               onChanged: (value) {
-
-                  _confirmOTPBloc.pin6ValueSink.add(value);
-                  _confirmOTPBloc.updateStateValidate();
-                  checkPin();
-                  pin6FocusNode.unfocus();
+                _confirmOTPBloc.pin6ValueSink.add(value);
+                _confirmOTPBloc.updateStateValidate();
+                checkPin();
+                pin6FocusNode.unfocus();
               },
               maxLength: 1,
             ),
@@ -307,40 +321,31 @@ class _ConfirmOTPState extends State<ConfirmOTPPage> {
     );
   }
 
-  Widget _validatorOTP(){
+  Widget _validatorOTP() {
     return Container(
       padding: EdgeInsets.only(top: 10, bottom: 10),
       child: StreamBuilder<OTPValidator>(
         stream: _confirmOTPBloc.otpValidateValueStream,
-        builder: (context, snapshot){
-          if(snapshot.data == null){
+        builder: (context, snapshot) {
+          if (snapshot.data == null) {
             return Container();
-          }
-          else if(snapshot.data == OTPValidator.Empty){
+          } else if (snapshot.data == OTPValidator.Empty) {
             return SizedBox(
               height: 20,
               child: Text(
-                "Không được bỏ trống",
-                style: TextStyle(
-                  fontSize: 12,
-                  color: AppColors.red
-                ),
+                LocaleKeys.canNotBeEmpty.tr(),
+                style: TextStyle(fontSize: 12, color: AppColors.red),
               ),
             );
-          }
-          else if(snapshot.data == OTPValidator.Unvalidated){
+          } else if (snapshot.data == OTPValidator.Unvalidated) {
             return SizedBox(
               height: 20,
               child: Text(
-                "Không hợp lệ",
-                style: TextStyle(
-                    fontSize: 12,
-                    color: AppColors.red
-                ),
+                LocaleKeys.invalid.tr(),
+                style: TextStyle(fontSize: 12, color: AppColors.red),
               ),
             );
-          }
-          else{
+          } else {
             return SizedBox(height: 20);
           }
         },
@@ -363,35 +368,45 @@ class _ConfirmOTPState extends State<ConfirmOTPPage> {
                     }
                     return snapshot.data
                         ? InkWell(
-                      onTap: () async {},
-                      child: Container(
-                        decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(5),
-                            color: AppColors.secColor),
-                        height: 50,
-                        width: 140,
-                        child: Center(
-                          child: Text(
-                            "Xác nhận",
-                            style:
-                            TextStyle(color: AppColors.white, fontSize: 14),
-                          ),
-                        ),
-                      ),
-                    )
+                            onTap: () async {
+                              String token =
+                                  await _confirmOTPBloc.userConfirmOTPForPass(
+                                      widget.username.toString());
+                              if (token != null) {
+                                GetIt.I<Navigation>().pushNamed(
+                                    AppRouter.resetPassword,
+                                    arguments: token);
+                              }
+                            },
+                            child: Container(
+                              decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(5),
+                                  color: AppColors.secColor),
+                              height: 50,
+                              width: 140,
+                              child: Center(
+                                child: Text(
+                                  LocaleKeys.verify.tr(),
+                                  style: TextStyle(
+                                      color: AppColors.white, fontSize: 14),
+                                ),
+                              ),
+                            ),
+                          )
                         : Container(
-                      decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(5),
-                          color: AppColors.grey),
-                      height: 50,
-                      width: 140,
-                      child: Center(
-                        child: Text(
-                          "Xác nhận",
-                          style: TextStyle(color: AppColors.white, fontSize: 14),
-                        ),
-                      ),
-                    );
+                            decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(5),
+                                color: AppColors.secColor),
+                            height: 50,
+                            width: 140,
+                            child: Center(
+                              child: Text(
+                                LocaleKeys.verify.tr(),
+                                style: TextStyle(
+                                    color: AppColors.white, fontSize: 14),
+                              ),
+                            ),
+                          );
                   }),
             ),
           ),
@@ -405,25 +420,25 @@ class _ConfirmOTPState extends State<ConfirmOTPPage> {
     );
   }
 
-  Widget _resendOTP(){
+  Widget _resendOTP() {
     return Container(
       child: Row(
         children: [
           Text(
-            "Chưa nhận được mã xác thực?",
+            LocaleKeys.notReceiverCode.tr(),
             style: TextStyle(color: AppColors.secColor, fontSize: 12),
           ),
           SizedBox(width: 20),
           TextButton(
             child: Text(
-              "Gửi Lại",
+              LocaleKeys.resend.tr(),
               style: TextStyle(
                   color: AppColors.priColor,
                   fontSize: 14,
                   decoration: TextDecoration.underline),
             ),
-            onPressed: () {
-              /// resend otp
+            onPressed: () async{
+              await _confirmOTPBloc.resendOTP(widget.username.toString());
             },
           ),
         ],
@@ -431,20 +446,24 @@ class _ConfirmOTPState extends State<ConfirmOTPPage> {
     );
   }
 
-  void checkPin(){
-    if(pinController.text != "" && pin2Controller.text != "" &&
-        pin3Controller.text != "" && pin4Controller.text != "" &&
-        pin5Controller.text != "" && pin6Controller.text != "" ) {
+  void checkPin() {
+    if (pinController.text != "" &&
+        pin2Controller.text != "" &&
+        pin3Controller.text != "" &&
+        pin4Controller.text != "" &&
+        pin5Controller.text != "" &&
+        pin6Controller.text != "") {
       _confirmOTPBloc.otpValidateValueSink.add(OTPValidator.Validated);
       _confirmOTPBloc.enableButtonConfirmSink.add(true);
-    }
-    else if(pinController.text == "" && pin2Controller.text == "" &&
-        pin3Controller.text == "" && pin4Controller.text == "" &&
-        pin5Controller.text == "" && pin6Controller.text == ""){
+    } else if (pinController.text == "" &&
+        pin2Controller.text == "" &&
+        pin3Controller.text == "" &&
+        pin4Controller.text == "" &&
+        pin5Controller.text == "" &&
+        pin6Controller.text == "") {
       _confirmOTPBloc.otpValidateValueSink.add(OTPValidator.Empty);
       _confirmOTPBloc.enableButtonConfirmSink.add(false);
-    }
-    else{
+    } else {
       _confirmOTPBloc.otpValidateValueSink.add(OTPValidator.Unvalidated);
       _confirmOTPBloc.enableButtonConfirmSink.add(false);
     }
@@ -455,6 +474,4 @@ class _ConfirmOTPState extends State<ConfirmOTPPage> {
       focusNode.requestFocus();
     }
   }
-
-
 }

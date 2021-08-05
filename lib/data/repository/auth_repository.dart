@@ -5,6 +5,7 @@ import 'package:t4edu_source_source/instance/Session.dart';
 import 'package:t4edu_source_source/source/api/api_error.dart';
 import 'package:t4edu_source_source/source/api/client/rest/auth_client.dart';
 
+const String resendOTPPath = '/auth/forgot-password';
 
 class AuthRepositoryIml extends AuthRepository {
   ClientAuth _clientAuth = GetIt.I<ClientAuth>();
@@ -44,38 +45,33 @@ class AuthRepositoryIml extends AuthRepository {
 
   ///forgot password
   @override
-  Future<void> userForgotPassword(String username) async{
+  Future<void> userForgotPassword(String username) async {
     try {
       String path = "/auth/forgot-password";
 
-      await _clientAuth.post(path,
-          data: <String, dynamic>{
-            'emailOrPhoneNumber': username,
-          },
-          mapDataError: [
-            "emailOrPhoneNumber",
-          ]);
+      await _clientAuth.post(path, data: <String, dynamic>{
+        'emailOrPhoneNumber': username,
+      }, mapDataError: [
+        "emailOrPhoneNumber",
+      ]);
     } catch (error) {
       throw error;
     }
   }
 
   @override
-  Future<Map> userConfirmCodeForPass(String code, String username) async{
+  Future<String> userConfirmCodeForPass(String code, String username) async {
     try {
       String path = "/auth/confirm-code-forgot-password";
 
-      final dynamic response = await _clientAuth.post(path,
-          data: <String, dynamic>{
-            'code': code,
-            'emailOrPhoneNumber': username,
-          },
-          mapDataError: [
-            'code',
-            "emailOrPhoneNumber",
-          ]);
-
-      if (response is Map) {
+      final dynamic response = await _clientAuth.post(path, data: <String, dynamic>{
+        'code': code,
+        'emailOrPhoneNumber': username,
+      }, mapDataError: [
+        'code',
+        "emailOrPhoneNumber",
+      ]);
+      if(response is String){
         return response;
       }
       throw ApiError.fromResponse(response);
@@ -84,4 +80,35 @@ class AuthRepositoryIml extends AuthRepository {
     }
   }
 
+  @override
+  Future<void> resendOTP(String emailOrPhone) async{
+    try {
+      await _clientAuth.post(resendOTPPath, data: <String, dynamic>{
+        "emailOrPhoneNumber": emailOrPhone,
+      }, mapDataError: [
+        "emailOrPhoneNumber",
+      ]);
+    } catch (error) {
+      throw error;
+    }
+
+  }
+
+  @override
+  Future<void> userResetPassword(String password, String token) async{
+    try{
+      String path = "/auth/reset-password";
+
+      await _clientAuth.post(path, data: <String, dynamic>{
+        "password": password,
+        "token": token,
+      }, mapDataError: [
+        'password',
+        "token",
+      ]);
+    }
+    catch(error){
+      throw error;
+    }
+  }
 }

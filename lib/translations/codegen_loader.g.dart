@@ -33,7 +33,26 @@ class CodegenLoader extends AssetLoader{
   "messBoxTextButton1": "Choose now",
   "messBoxTitle2": "Unverified !",
   "messBoxContent2": "Your account unverified. Please verify your account to continue.",
-  "messBoxTextButton2": "Verify now"
+  "messBoxTextButton2": "Verify now",
+  "comment2": "ForgotPassword-->",
+  "forgotPasswordTitle": "Forgot Your Password",
+  "forgotPasswordSubtitle": "Enter email or phone number",
+  "search": "Search",
+  "confirmOTPTitle": "Verify OTP",
+  "confirmOTPSubtitle": "The system has sent you an OTP code !",
+  "verify": "Verify",
+  "notReceiverCode": "Have not received the verification code?",
+  "resend": "Resend",
+  "changePassTitle": "Change Your Password",
+  "changePassSubtitle": "Please enter your new password",
+  "newPassword": "New password",
+  "repeatNewPassword": "Repeat new password",
+  "finish": "Finish",
+  "resetSuccessTitle": "Change Password Success",
+  "resetSuccessSubtitle": "Congratulations on your new password !",
+  "loginNow": "Login now",
+  "invalid": "Invalid",
+  "passwordMismatched": "New password mismatched"
 };
 static const Map<String,dynamic> vi = {
   "error_message_default": "Có lỗi kết nối đến máy chủ. Quý khách vui lòng thử lại",
@@ -54,7 +73,26 @@ static const Map<String,dynamic> vi = {
   "messBoxTextButton1": "Chọn ngay",
   "messBoxTitle2": "Chưa xác thực !",
   "messBoxContent2": "Tài khoản của bạn chưa được xác thực, vui lòng xác thực để sử dụng dịch vụ.",
-  "messBoxTextButton2": "Xác thực ngay"
+  "messBoxTextButton2": "Xác thực ngay",
+  "comment2": "ForgotPassword-->",
+  "forgotPasswordTitle": "Quên Mật Khẩu",
+  "forgotPasswordSubtitle": "Nhập email hoặc số điện thoại",
+  "search": "Tìm kiếm",
+  "confirmOTPTitle": "Xác Thực OTP",
+  "confirmOTPSubtitle": "Hệ thống đã gửi cho bạn mã OTP !",
+  "verify": "Xác minh",
+  "notReceiverCode": "Không nhận được mã xác thực?",
+  "resend": "Gửi lại",
+  "changePassTitle": "Đổi Mật Khẩu",
+  "changePassSubtitle": "Vui lòng nhập mật khẩu mới của bạn",
+  "newPassword": "Mật khẩu mới",
+  "repeatNewPassword": "Nhập lại mật khẩu mới",
+  "finish": "Hoàn thành",
+  "resetSuccessTitle": "Đổi Mật Khẩu Thành Công",
+  "resetSuccessSubtitle": "Chúc mừng bạn đã có mật khẩu mới !",
+  "loginNow": "Đăng nhập ngay",
+  "invalid": "Không hợp lệ",
+  "passwordMismatched": "Mật khẩu mới không khớp"
 };
 static const Map<String, Map<String,dynamic>> mapLocales = {"en": en, "vi": vi};
 }

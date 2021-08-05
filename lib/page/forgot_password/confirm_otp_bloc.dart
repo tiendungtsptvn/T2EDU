@@ -1,15 +1,12 @@
-import 'dart:collection';
-
 import 'package:get_it/get_it.dart';
 import 'package:rxdart/rxdart.dart';
 import 'package:t4edu_source_source/base/bloc_base.dart';
 import 'package:t4edu_source_source/data/repository/auth_repository.dart';
+import 'package:t4edu_source_source/domain/models/access_token.dart';
+import 'package:t4edu_source_source/global/app_toast.dart';
+import 'package:t4edu_source_source/helpers/Utils.dart';
 
-enum OTPValidator{
-  Validated,
-  Unvalidated,
-  Empty
-}
+enum OTPValidator { Validated, Unvalidated, Empty }
 
 class ConfirmOTPBloc extends BlocBase {
   final AuthRepositoryIml _apiAuth = GetIt.I<AuthRepositoryIml>();
@@ -25,18 +22,18 @@ class ConfirmOTPBloc extends BlocBase {
   void _bind() {}
 
   final BehaviorSubject<bool> _progressIndicatorValue =
-  BehaviorSubject.seeded(false);
+      BehaviorSubject.seeded(false);
   Sink<bool> get progressIndicatorValueSink => _progressIndicatorValue.sink;
   Stream<bool> get progressIndicatorValueStream =>
       _progressIndicatorValue.stream;
 
   final BehaviorSubject<OTPValidator> _otpValidateValue =
-  BehaviorSubject.seeded(OTPValidator.Empty);
+      BehaviorSubject.seeded(OTPValidator.Empty);
   Stream<OTPValidator> get otpValidateValueStream => _otpValidateValue.stream;
   Sink<OTPValidator> get otpValidateValueSink => _otpValidateValue.sink;
 
   final BehaviorSubject<bool> _enableButtonConfirm =
-  BehaviorSubject.seeded(false);
+      BehaviorSubject.seeded(false);
   Stream<bool> get enableButtonConfirmStream => _enableButtonConfirm.stream;
   Sink<bool> get enableButtonConfirmSink => _enableButtonConfirm.sink;
 
@@ -59,33 +56,65 @@ class ConfirmOTPBloc extends BlocBase {
   final BehaviorSubject<String> _pin6Value = BehaviorSubject();
   Sink<String> get pin6ValueSink => _pin6Value.sink;
 
-
-
   void updateStateValidate() {
-    if(_pinValue.valueWrapper != null &&
+    if (_pinValue.valueWrapper != null &&
         _pin2Value.valueWrapper != null &&
         _pin3Value.valueWrapper != null &&
         _pin4Value.valueWrapper != null &&
         _pin5Value.valueWrapper != null &&
         _pin6Value.valueWrapper != null) {
-      if(!_enableButtonConfirm.isClosed) _enableButtonConfirm.add(true);
-      if(!_otpValidateValue.isClosed) _otpValidateValue?.add(OTPValidator.Validated);
-    }
-    else if(_pinValue.valueWrapper == null &&
+      if (!_enableButtonConfirm.isClosed) _enableButtonConfirm.add(true);
+      if (!_otpValidateValue.isClosed)
+        _otpValidateValue?.add(OTPValidator.Validated);
+    } else if (_pinValue.valueWrapper == null &&
         _pin2Value.valueWrapper == null &&
         _pin3Value.valueWrapper == null &&
         _pin4Value.valueWrapper == null &&
         _pin5Value.valueWrapper == null &&
-        _pin6Value.valueWrapper == null){
-      if(!_otpValidateValue.isClosed) _otpValidateValue?.add(OTPValidator.Empty);
-      if(!_enableButtonConfirm.isClosed) _enableButtonConfirm.add(false);
-    }
-    else{
-      if(!_otpValidateValue.isClosed) _otpValidateValue?.add(OTPValidator.Unvalidated);
-      if(!_enableButtonConfirm.isClosed) _enableButtonConfirm.add(false);
+        _pin6Value.valueWrapper == null) {
+      if (!_otpValidateValue.isClosed)
+        _otpValidateValue?.add(OTPValidator.Empty);
+      if (!_enableButtonConfirm.isClosed) _enableButtonConfirm.add(false);
+    } else {
+      if (!_otpValidateValue.isClosed)
+        _otpValidateValue?.add(OTPValidator.Unvalidated);
+      if (!_enableButtonConfirm.isClosed) _enableButtonConfirm.add(false);
     }
   }
 
+  Future<String> userConfirmOTPForPass(String username) async {
+    if (!_progressIndicatorValue.isClosed) _progressIndicatorValue.add(true);
+    String code =
+        _pinValue.valueWrapper.value+
+        _pin2Value.valueWrapper.value +
+        _pin3Value.valueWrapper.value +
+        _pin4Value.valueWrapper.value +
+        _pin5Value.valueWrapper.value +
+        _pin6Value.valueWrapper.value;
+    try {
+      final dynamic response = await _apiAuth.userConfirmCodeForPass(code, username);
+      if (!_progressIndicatorValue.isClosed) _progressIndicatorValue.add(false);
+      AppToast.showSuccess("Thiết lập mật khẩu mới");
+      return response;
+    } catch (e) {
+      if (!_progressIndicatorValue.isClosed) _progressIndicatorValue.add(false);
+      AppToast.showError(Utils.getMessageError(e));
+      return null;
+    }
+  }
+
+  Future<void> resendOTP(String username) async{
+    if (!_progressIndicatorValue.isClosed) _progressIndicatorValue.add(true);
+    try{
+      await _apiAuth.resendOTP(username);
+      if (!_progressIndicatorValue.isClosed) _progressIndicatorValue.add(false);
+      AppToast.showSuccess("Đã gửi lại mã OTP");
+    }
+    catch(e){
+      if (!_progressIndicatorValue.isClosed) _progressIndicatorValue.add(false);
+      AppToast.showError(Utils.getMessageError(e));
+    }
+  }
 
   @override
   void dispose() {

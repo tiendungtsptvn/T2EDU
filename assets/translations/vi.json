@@ -18,5 +18,26 @@
   "messBoxTextButton1": "Chọn ngay",
   "messBoxTitle2": "Chưa xác thực !",
   "messBoxContent2": "Tài khoản của bạn chưa được xác thực, vui lòng xác thực để sử dụng dịch vụ.",
-  "messBoxTextButton2": "Xác thực ngay"
+  "messBoxTextButton2": "Xác thực ngay",
+
+  "comment2": "ForgotPassword-->",
+  "forgotPasswordTitle": "Quên Mật Khẩu",
+  "forgotPasswordSubtitle": "Nhập email hoặc số điện thoại",
+  "search": "Tìm kiếm",
+  "confirmOTPTitle": "Xác Thực OTP",
+  "confirmOTPSubtitle": "Hệ thống đã gửi cho bạn mã OTP !",
+  "verify": "Xác minh",
+  "notReceiverCode": "Không nhận được mã xác thực?",
+  "resend": "Gửi lại",
+  "changePassTitle": "Đổi Mật Khẩu",
+  "changePassSubtitle": "Vui lòng nhập mật khẩu mới của bạn",
+  "newPassword": "Mật khẩu mới",
+  "repeatNewPassword": "Nhập lại mật khẩu mới",
+  "finish": "Hoàn thành",
+  "resetSuccessTitle": "Đổi Mật Khẩu Thành Công",
+  "resetSuccessSubtitle": "Chúc mừng bạn đã có mật khẩu mới !",
+  "loginNow": "Đăng nhập ngay",
+  "invalid": "Không hợp lệ",
+  "passwordMismatched": "Mật khẩu mới không khớp"
+
 }

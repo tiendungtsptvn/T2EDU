@@ -20,5 +20,24 @@ abstract class  LocaleKeys {
   static const messBoxTitle2 = 'messBoxTitle2';
   static const messBoxContent2 = 'messBoxContent2';
   static const messBoxTextButton2 = 'messBoxTextButton2';
+  static const comment2 = 'comment2';
+  static const forgotPasswordTitle = 'forgotPasswordTitle';
+  static const forgotPasswordSubtitle = 'forgotPasswordSubtitle';
+  static const search = 'search';
+  static const confirmOTPTitle = 'confirmOTPTitle';
+  static const confirmOTPSubtitle = 'confirmOTPSubtitle';
+  static const verify = 'verify';
+  static const notReceiverCode = 'notReceiverCode';
+  static const resend = 'resend';
+  static const changePassTitle = 'changePassTitle';
+  static const changePassSubtitle = 'changePassSubtitle';
+  static const newPassword = 'newPassword';
+  static const repeatNewPassword = 'repeatNewPassword';
+  static const finish = 'finish';
+  static const resetSuccessTitle = 'resetSuccessTitle';
+  static const resetSuccessSubtitle = 'resetSuccessSubtitle';
+  static const loginNow = 'loginNow';
+  static const invalid = 'invalid';
+  static const passwordMismatched = 'passwordMismatched';
 
 }

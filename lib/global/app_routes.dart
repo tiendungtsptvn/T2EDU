@@ -2,6 +2,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:t4edu_source_source/page/forgot_password/confirm_otp.dart';
 import 'package:t4edu_source_source/page/forgot_password/forgot_password.dart';
+import 'package:t4edu_source_source/page/forgot_password/reset_password.dart';
+import 'package:t4edu_source_source/page/forgot_password/reset_success.dart';
 import 'package:t4edu_source_source/page/login/login.dart';
 import 'package:t4edu_source_source/page/main/main_page.dart';
 import 'package:t4edu_source_source/page/splash/splash.dart';
@@ -32,7 +34,11 @@ class AppRouter {
       case forgotPassword:
         return ForgotPasswordPage();
       case confirmOTPForPass:
-        return ConfirmOTPPage();
+        return ConfirmOTPPage(username: arguments);
+      case resetPassword:
+        return ResetPasswordPage(token: arguments);
+      case resetSuccess:
+        return ResetSuccessPage();
 
       default:
         throw 'Route $routeName is not defined';
@@ -44,4 +50,6 @@ class AppRouter {
   static const String login = '/login';
   static const String forgotPassword = '/forgotPassword';
   static const String confirmOTPForPass = '/confirmOTP';
+  static const String resetPassword = '/resetPassword';
+  static const String resetSuccess = '/resetSuccess';
 }

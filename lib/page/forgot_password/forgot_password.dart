@@ -4,6 +4,8 @@ import 'package:t4edu_source_source/global/app_color.dart';
 import 'package:t4edu_source_source/global/app_navigation.dart';
 import 'package:t4edu_source_source/global/app_routes.dart';
 import 'package:t4edu_source_source/page/forgot_password/forgot_password_bloc.dart';
+import 'package:easy_localization/easy_localization.dart';
+import 'package:t4edu_source_source/translations/locale_keys.g.dart';
 
 class ForgotPasswordPage extends StatefulWidget {
   @override
@@ -42,7 +44,7 @@ class _ForgotPasswordState extends State<ForgotPasswordPage> {
             leading: IconButton(
               icon: Icon(Icons.arrow_back_ios),
               onPressed: () {
-                /// Navigate to previous Screen
+                GetIt.I<Navigation>().pop();
               },
             ),
             elevation: 0.0,
@@ -79,7 +81,7 @@ class _ForgotPasswordState extends State<ForgotPasswordPage> {
           SizedBox(height: 5),
           _screenName(),
           SizedBox(height: 3),
-          _welcome(),
+          _subTittle(),
           SizedBox(height: 90),
           _textFieldUsername(),
           SizedBox(height: 20),
@@ -91,15 +93,15 @@ class _ForgotPasswordState extends State<ForgotPasswordPage> {
 
   Widget _screenName() {
     return Text(
-      "Quên Mật Khẩu",
+      LocaleKeys.forgotPasswordTitle.tr(),
       style: TextStyle(
           color: AppColors.secColor, fontSize: 20, fontWeight: FontWeight.bold),
     );
   }
 
-  Widget _welcome() {
+  Widget _subTittle() {
     return Text(
-      "Nhập Email hoặc SĐT đã đăng ký",
+      LocaleKeys.forgotPasswordSubtitle.tr(),
       style: TextStyle(color: AppColors.thiColor, fontSize: 14),
     );
   }
@@ -119,7 +121,7 @@ class _ForgotPasswordState extends State<ForgotPasswordPage> {
               Icons.account_box,
               size: 18,
             ),
-            hintText: "Địa chỉ email hoặc số điện thoại",
+            hintText: LocaleKeys.hintUsername.tr(),
             hintStyle: TextStyle(fontSize: 12),
             contentPadding: EdgeInsets.all(15),
             counterText: ""),
@@ -130,7 +132,7 @@ class _ForgotPasswordState extends State<ForgotPasswordPage> {
         validator: (_) {
           if (_usernameController.text.length == 0) {
             _forgotPasswordBloc.enableButtonFindSink.add(false);
-            return "Không được phép bỏ trống";
+            return LocaleKeys.canNotBeEmpty.tr();
           } else
             return null;
         },
@@ -158,7 +160,8 @@ class _ForgotPasswordState extends State<ForgotPasswordPage> {
                             bool success = await _forgotPasswordBloc
                                 .userForgotPassword();
                             if(success){
-                              GetIt.I<Navigation>().pushNamed(AppRouter.confirmOTPForPass);
+                              GetIt.I<Navigation>().pushNamed(AppRouter.confirmOTPForPass,
+                              arguments: _usernameController.text);
                             }
                           },
                           child: Container(
@@ -169,7 +172,7 @@ class _ForgotPasswordState extends State<ForgotPasswordPage> {
                             width: 140,
                             child: Center(
                               child: Text(
-                                "Tìm kiếm",
+                                LocaleKeys.search.tr(),
                                 style: TextStyle(
                                     color: AppColors.white, fontSize: 14),
                               ),
@@ -184,7 +187,7 @@ class _ForgotPasswordState extends State<ForgotPasswordPage> {
                           width: 140,
                           child: Center(
                             child: Text(
-                              "Tìm kiếm",
+                              LocaleKeys.search.tr(),
                               style: TextStyle(
                                   color: AppColors.white, fontSize: 14),
                             ),
@@ -193,7 +196,7 @@ class _ForgotPasswordState extends State<ForgotPasswordPage> {
                 }),
           ),
         ),
-        SizedBox(width: 20),
+        SizedBox(width: 30),
         Expanded(flex: 1, child: Container())
       ],
     );
