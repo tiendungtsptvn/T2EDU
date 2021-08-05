@@ -5,13 +5,17 @@ import 'package:t4edu_source_source/instance/Session.dart';
 import 'package:t4edu_source_source/source/api/api_error.dart';
 import 'package:t4edu_source_source/source/api/client/rest/auth_client.dart';
 
+///mình quy  ước case 1 là code  4, case 2  code là 7  case 4 code là 8 nha
+
+const String registerPath = '/auth/register';
 const String resendOTPPath = '/auth/forgot-password';
+const otpConfirmedPath = '/auth/confirm-code';
 
 class AuthRepositoryIml extends AuthRepository {
   ClientAuth _clientAuth = GetIt.I<ClientAuth>();
+
   AuthRepositoryIml(this._clientAuth);
 
-  ///login
   @override
   Future<Map> userLogin(String username, String password) async {
     try {
@@ -43,6 +47,60 @@ class AuthRepositoryIml extends AuthRepository {
     }
   }
 
+  @override
+  Future<Map> registerAccount(String emailOrPhone, String firstName,
+      String lastName, String pass) async {
+    try {
+      final dynamic response =
+      await _clientAuth.post(registerPath, data: <String, dynamic>{
+        "emailOrPhoneNumber": emailOrPhone,
+        "firstName": firstName,
+        "lastName": lastName,
+        "password": pass,
+      }, mapDataError: [
+        "emailOrPhoneNumber",
+        "firstName",
+        "lastName",
+        "password"
+      ]);
+      if (response is Map) {
+        return response;
+      }
+      throw ApiError.fromResponse(response);
+    } catch (error) {
+      throw error;
+    }
+  }
+
+  //OTp register confirm from branch develop 31/07/2021
+  @override
+  Future resendOTP(String emailOrPhone) async {
+    try {
+      await _clientAuth.post(resendOTPPath, data: <String, dynamic>{
+        "emailOrPhoneNumber": emailOrPhone,
+      }, mapDataError: [
+        "emailOrPhoneNumber",
+      ]);
+    } catch (error) {
+      throw error;
+    }
+  }
+
+  @override
+  Future otpRegisterConfirm(String emailOrPhone, String code) async {
+    try {
+      await _clientAuth.post(otpConfirmedPath, data: <String, dynamic>{
+        "code": code,
+        "emailOrPhoneNumber": emailOrPhone,
+      }, mapDataError: [
+        "code",
+        "emailOrPhoneNumber"
+      ]);
+    } catch (error) {
+      throw error;
+    }
+  }
+
   ///forgot password
   @override
   Future<void> userForgotPassword(String username) async {
@@ -64,14 +122,15 @@ class AuthRepositoryIml extends AuthRepository {
     try {
       String path = "/auth/confirm-code-forgot-password";
 
-      final dynamic response = await _clientAuth.post(path, data: <String, dynamic>{
+      final dynamic response =
+      await _clientAuth.post(path, data: <String, dynamic>{
         'code': code,
         'emailOrPhoneNumber': username,
       }, mapDataError: [
         'code',
         "emailOrPhoneNumber",
       ]);
-      if(response is String){
+      if (response is String) {
         return response;
       }
       throw ApiError.fromResponse(response);
@@ -81,22 +140,8 @@ class AuthRepositoryIml extends AuthRepository {
   }
 
   @override
-  Future<void> resendOTP(String emailOrPhone) async{
+  Future<void> userResetPassword(String password, String token) async {
     try {
-      await _clientAuth.post(resendOTPPath, data: <String, dynamic>{
-        "emailOrPhoneNumber": emailOrPhone,
-      }, mapDataError: [
-        "emailOrPhoneNumber",
-      ]);
-    } catch (error) {
-      throw error;
-    }
-
-  }
-
-  @override
-  Future<void> userResetPassword(String password, String token) async{
-    try{
       String path = "/auth/reset-password";
 
       await _clientAuth.post(path, data: <String, dynamic>{
@@ -106,9 +151,10 @@ class AuthRepositoryIml extends AuthRepository {
         'password',
         "token",
       ]);
-    }
-    catch(error){
+    } catch (error) {
       throw error;
     }
   }
+
+
 }
