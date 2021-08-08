@@ -52,7 +52,23 @@ class CodegenLoader extends AssetLoader{
   "resetSuccessSubtitle": "Congratulations on your new password !",
   "loginNow": "Login now",
   "invalid": "Invalid",
-  "passwordMismatched": "New password mismatched"
+  "passwordMismatched": "New password mismatched",
+  "otpConfirm": "OTP Confirm",
+  "otpSubtitleHeader": "We have sent OTP code to email or phone number",
+  "haveNotReceiveCodeYet": "Have you not received the code yet?",
+  "confirm": "Confirm",
+  "resendOtpSuccessMessage": "We have resent OTP code",
+  "newRegister": "Register here",
+  "name": "Full Name",
+  "emailOrPhoneNumber": "Email or Phone number",
+  "register": "Register",
+  "firstName": "First Name",
+  "lastName": "Last Name",
+  "rePassword": "Confirm Password",
+  "success": "Success",
+  "acceptTheTermsMessage": "You have not accepted the terms!",
+  "emptyTheFieldMessage": "Please fill all fields",
+  "rePassMessage": "Your confirm password is wrong"
 };
 static const Map<String,dynamic> vi = {
   "error_message_default": "Có lỗi kết nối đến máy chủ. Quý khách vui lòng thử lại",
@@ -82,7 +98,6 @@ static const Map<String,dynamic> vi = {
   "confirmOTPSubtitle": "Hệ thống đã gửi cho bạn mã OTP !",
   "verify": "Xác minh",
   "notReceiverCode": "Không nhận được mã xác thực?",
-  "resend": "Gửi lại",
   "changePassTitle": "Đổi Mật Khẩu",
   "changePassSubtitle": "Vui lòng nhập mật khẩu mới của bạn",
   "newPassword": "Mật khẩu mới",
@@ -92,7 +107,23 @@ static const Map<String,dynamic> vi = {
   "resetSuccessSubtitle": "Chúc mừng bạn đã có mật khẩu mới !",
   "loginNow": "Đăng nhập ngay",
   "invalid": "Không hợp lệ",
-  "passwordMismatched": "Mật khẩu mới không khớp"
+  "passwordMismatched": "Mật khẩu mới không khớp",
+  "otpConfirm": "Xác thực OTP",
+  "otpSubtitleHeader": "Chúng tôi vừa gửi mã OTP đến số điện thoại hoặc email của bạn",
+  "haveNotReceiveCodeYet": "Chưa nhận được mã xác thực?",
+  "resend": "Gửi lại",
+  "confirm": "Xác minh",
+  "resendOtpSuccessMessage": "Đã gửi lại OTP đến email hoặc số điện thoại của bạn",
+  "newRegister": "Đăng kí mới",
+  "emailOrPhoneNumber": "Email hoặc số điện thoại",
+  "register": "Đăng kí",
+  "firstName": "Họ",
+  "lastName": "Tên",
+  "rePassword": "Nhập lại mật khẩu",
+  "success": "Thành công",
+  "acceptTheTermsMessage": "Bạn chưa đông ý điều khoản sử dụng",
+  "emptyTheFieldMessage": "Hãy điền đầy đủ thông tin cá nhân",
+  "rePassMessage": "Mật khẩu điền lại không đúng"
 };
 static const Map<String, Map<String,dynamic>> mapLocales = {"en": en, "vi": vi};
 }

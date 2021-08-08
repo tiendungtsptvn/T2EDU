@@ -39,5 +39,21 @@ abstract class  LocaleKeys {
   static const loginNow = 'loginNow';
   static const invalid = 'invalid';
   static const passwordMismatched = 'passwordMismatched';
+  static const otpConfirm = 'otpConfirm';
+  static const otpSubtitleHeader = 'otpSubtitleHeader';
+  static const haveNotReceiveCodeYet = 'haveNotReceiveCodeYet';
+  static const confirm = 'confirm';
+  static const resendOtpSuccessMessage = 'resendOtpSuccessMessage';
+  static const newRegister = 'newRegister';
+  static const name = 'name';
+  static const emailOrPhoneNumber = 'emailOrPhoneNumber';
+  static const register = 'register';
+  static const firstName = 'firstName';
+  static const lastName = 'lastName';
+  static const rePassword = 'rePassword';
+  static const success = 'success';
+  static const acceptTheTermsMessage = 'acceptTheTermsMessage';
+  static const emptyTheFieldMessage = 'emptyTheFieldMessage';
+  static const rePassMessage = 'rePassMessage';
 
 }

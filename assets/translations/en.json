@@ -19,7 +19,6 @@
   "messBoxTitle2": "Unverified !",
   "messBoxContent2": "Your account unverified. Please verify your account to continue.",
   "messBoxTextButton2": "Verify now",
-
   "comment2": "ForgotPassword-->",
   "forgotPasswordTitle": "Forgot Your Password",
   "forgotPasswordSubtitle": "Enter email or phone number",
@@ -38,6 +37,21 @@
   "resetSuccessSubtitle": "Congratulations on your new password !",
   "loginNow": "Login now",
   "invalid": "Invalid",
-  "passwordMismatched": "New password mismatched"
-
+  "passwordMismatched": "New password mismatched",
+  "otpConfirm": "OTP Confirm",
+  "otpSubtitleHeader": "We have sent OTP code to email or phone number",
+  "haveNotReceiveCodeYet": "Have you not received the code yet?",
+  "confirm": "Confirm",
+  "resendOtpSuccessMessage":"We have resent OTP code",
+  "newRegister": "Register here",
+  "name": "Full Name",
+  "emailOrPhoneNumber": "Email or Phone number",
+  "register": "Register",
+  "firstName": "First Name",
+  "lastName": "Last Name",
+  "rePassword": "Confirm Password",
+  "success": "Success",
+  "acceptTheTermsMessage": "You have not accepted the terms!",
+  "emptyTheFieldMessage": "Please fill all fields",
+  "rePassMessage": "Your confirm password is wrong"
 }
