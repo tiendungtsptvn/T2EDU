@@ -18,6 +18,7 @@ import 'package:t4edu_source_source/instance/app_index.dart';
 import 'package:t4edu_source_source/instance/connection.dart';
 import 'package:t4edu_source_source/source/local/pref.dart';
 import 'base/widget/header_refresh.dart';
+import 'data/repository/auth_repository.dart';
 import 'global/app_local.dart';
 
 final RouteObserver<PageRoute> routeObserver = RouteObserver<PageRoute>();
@@ -31,6 +32,7 @@ class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
   Connectivity _connectivity = Connectivity();
   StreamSubscription<ConnectivityResult> _streamConnectivity;
   bool hasConnect = false;
+  AuthRepositoryIml _authRepositoryIml = GetIt.I<AuthRepositoryIml>();
 
   @override
   void initState() {

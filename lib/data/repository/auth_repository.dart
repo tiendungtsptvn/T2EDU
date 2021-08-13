@@ -1,4 +1,8 @@
+
+import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
 import 'package:get_it/get_it.dart';
+import 'package:google_sign_in/google_sign_in.dart';
+
 import 'package:t4edu_source_source/domain/models/access_token.dart';
 import 'package:t4edu_source_source/domain/repository/auth_repository.dart';
 import 'package:t4edu_source_source/instance/Session.dart';
@@ -12,7 +16,8 @@ const otpConfirmedPath = '/auth/confirm-code';
 
 class AuthRepositoryIml extends AuthRepository {
   ClientAuth _clientAuth = GetIt.I<ClientAuth>();
-
+  // FirebaseAuth _firebaseAuth;
+  GoogleSignIn _googleSignIn = GoogleSignIn();
   AuthRepositoryIml(this._clientAuth);
 
   @override
@@ -153,4 +158,37 @@ class AuthRepositoryIml extends AuthRepository {
       throw error;
     }
   }
+
+
+  Future<GoogleSignInAccount> signInWithGoogle() async {
+    try{
+      final GoogleSignInAccount googleSignInAccount =
+      await _googleSignIn.signIn();
+      return googleSignInAccount;
+    }
+    catch(e){
+      throw e;
+    }
+  }
+
+  Future<Map> signInWithFacebook() async {
+    Map userData;
+    try{
+      var result = await FacebookAuth.i.login(
+        permissions: ["public_profile", "email"],
+      );
+      if(result.status == LoginStatus.success){
+        final responseData = await FacebookAuth.i.getUserData(
+          fields: "email, name, picture",
+        );
+        userData = responseData;
+        return userData;
+      }
+      return null;
+    }
+    catch(e){
+      throw e;
+    }
+  }
+
 }

@@ -1,4 +1,5 @@
 import 'package:get_it/get_it.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 import 'package:rxdart/rxdart.dart';
 import 'package:t4edu_source_source/base/bloc_base.dart';
 import 'package:t4edu_source_source/data/repository/auth_repository.dart';
@@ -82,6 +83,37 @@ class LoginBloc extends BlocBase {
       AppToast.showError(Utils.getMessageError(e));
       if (e is ApiError && e.code == "7") return LoginCase.Unverified;
       return null;
+    }
+  }
+
+  Future<bool> userSignInWithGoogle() async{
+    GoogleSignInAccount user;
+    try{
+      user = await _apiAuth.signInWithGoogle();
+      if(user != null){
+        AppToast.showSuccess("Thành Công");
+        return true;
+      }
+      return false;
+    }
+    catch(e){
+      AppToast.showError(e);
+      return false;
+    }
+  }
+
+  Future<bool> userSignInWithFacebook() async{
+    try{
+      Map userData = await _apiAuth.signInWithFacebook();
+      if(userData is Map){
+        AppToast.showSuccess("Thành Công");
+        return true;
+      }
+      return false;
+    }
+    catch(e){
+      AppToast.showError(e);
+      return false;
     }
   }
 

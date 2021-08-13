@@ -229,7 +229,6 @@ class _RegisterPageState extends State<RegisterPage> {
                     } else {
                       return Checkbox(
                         value: snapshot.data,
-                        shape: RoundedRectangleBorder(),
                         onChanged: (bool value) {
                           registerBloc.updateCheckBox(value);
                         },

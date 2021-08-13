@@ -378,38 +378,54 @@ class _LoginPageState extends State<LoginPage> {
           ),
           Row(
             children: [
-              Container(
-                decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(5),
-                    color: AppColors.secColor),
-                height: 50,
-                width: 50,
-                child: Center(
-                  child: Text(
-                    "F",
-                    style: TextStyle(
-                        color: AppColors.white,
-                        fontSize: 25,
-                        fontWeight: FontWeight.bold),
+              InkWell(
+                onTap: () async{
+                  bool success = await _loginBloc.userSignInWithFacebook();
+                  if(success){
+
+                  }
+                },
+                child: Container(
+                  decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(5),
+                      color: AppColors.secColor),
+                  height: 50,
+                  width: 50,
+                  child: Center(
+                    child: Text(
+                      "F",
+                      style: TextStyle(
+                          color: AppColors.white,
+                          fontSize: 25,
+                          fontWeight: FontWeight.bold),
+                    ),
                   ),
                 ),
               ),
               SizedBox(
                 width: 10,
               ),
-              Container(
-                decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(5),
-                    color: AppColors.orange),
-                height: 50,
-                width: 50,
-                child: Center(
-                  child: Text(
-                    "G+",
-                    style: TextStyle(
-                        color: AppColors.white,
-                        fontSize: 25,
-                        fontWeight: FontWeight.bold),
+              InkWell(
+                onTap: () async{
+                  bool success = await _loginBloc.userSignInWithGoogle();
+                  if(success){
+
+                  }
+                },
+                child: Container(
+                  decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(5),
+                      color: AppColors.orange),
+                  height: 50,
+                  width: 50,
+                  child: Center(
+                    child: Text(
+                      "G+",
+                      style: TextStyle(
+                          color: AppColors.white,
+                          fontSize: 25,
+                          fontWeight: FontWeight.bold),
+                    ),
                   ),
                 ),
               ),
