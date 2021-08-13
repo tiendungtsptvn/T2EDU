@@ -8,3 +8,4 @@ abstract class AuthRepository {
   Future<Map> registerAccount(String emailOrPhone, String firstName, String lastName,String pass);
   Future<void> otpRegisterConfirm(String emailOrPhone,String code);
 }
+

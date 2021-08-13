@@ -56,7 +56,7 @@ class AuthRepositoryIml extends AuthRepository {
       String lastName, String pass) async {
     try {
       final dynamic response =
-          await _clientAuth.post(registerPath, data: <String, dynamic>{
+      await _clientAuth.post(registerPath, data: <String, dynamic>{
         "emailOrPhoneNumber": emailOrPhone,
         "firstName": firstName,
         "lastName": lastName,
@@ -111,7 +111,7 @@ class AuthRepositoryIml extends AuthRepository {
       String path = "/auth/confirm-code-forgot-password";
 
       final dynamic response =
-          await _clientAuth.post(path, data: <String, dynamic>{
+      await _clientAuth.post(path, data: <String, dynamic>{
         'code': code,
         'emailOrPhoneNumber': username,
       }, mapDataError: [
